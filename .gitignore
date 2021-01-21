@@ -1,5 +1,7 @@
 .DS_Store
 a.out
+run
+test
 
 # Prerequisites
 *.d
