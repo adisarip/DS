@@ -12,7 +12,7 @@ Sample Output:
 */
 
 
-//#include <mpi.h>
+#include <mpi.h>
 #include <iostream>
 #include <cstring>
 #include <fstream>
@@ -79,7 +79,7 @@ int parse_input_data(string input_file, int numbers[])
     // input data verification
     if (index == size)
     {
-        cout << "[INFO]  Number of elements to be sorted: " << size << endl;
+        cout << "[INFO] Number of elements to be sorted: " << size << endl;
     }
     else
     {
@@ -90,83 +90,151 @@ int parse_input_data(string input_file, int numbers[])
     return size;
 }
 
+void print_list(int numbers[], int size)
+{
+    cout << endl;
+    for (int i=0; i<size; i++)
+    {
+        cout << numbers[i] << " ";
+    }
+    cout << endl;
+}
+
 int main(int argc, char* argv[])
 {
-    int numbers[MAX_LIMIT];
     if (argc != 3)
     {
-        cout << "[ERROR] Invalid input data." << endl;
-        cout << "[INFO]  Usage: ./run <input_file> <output_file>" << endl;
+        cout << "[ERR]  Invalid input data." << endl;
+        cout << "[INFO] Usage: ./run <input_file> <output_file>" << endl;
         return 0;
     }
 
-    string input_file = string(argv[1]);  // save the input file
-    string output_file = string(argv[2]); // save the output file
-    int N = parse_input_data(input_file, numbers);
-
-    if (N > MAX_LIMIT)
-    {
-        cout << "[ERROR] Number of elements out-of-range: " << N << endl;
-        cout << "[INFO]  Accecpted input limits : 2 <= N <= 1000000" << endl;
-        return 0;
-    }
-
-    MPI_Init(NULL, NULL);
+    MPI_Init(&argc, &argv);
 
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     int world_size;
     MPI_Comm_size(MPI_COMM_WORLD, &world_size);
 
-    if (rank != MASTER)
+    int numbers[MAX_LIMIT];
+    int size;
+
+    if (rank == MASTER)
     {
-        MPI_Recv();
-        int p_index = create_partition();
-        if (2*rank+2 <= world_size)
-        {
-            MPI_Send(); // send to left  2*r+1
-            MPI_send(); // send to right 2*r+2
+        string input_file = string(argv[1]);  // save the input file
+        string output_file = string(argv[2]); // save the output file
+        size = parse_input_data(input_file, numbers);
 
-            MPI_Recv(); // receive from left  2*r+1
-            MPI_Recv(); // receive from left  2*r+2
-
-            MPI_Send(); // send back to parent (rank-1)/2
-        }
-        else if (2*rank+1 <= world_size)
+        if (size > MAX_LIMIT)
         {
-            MPI_Send(); // send to left  2*r+1
-            quicksort(); // perform quicksort on right
-            MPI_Recv(); // receive from left  2*r+1
-            MPI_Send(); // concatenate send back to parent (rank-1)/2
+            cout << "[ERR]  Number of elements out-of-range: " << size << endl;
+            cout << "[INFO] Accecpted input limits : 2 <= N <= 1000000" << endl;
+            MPI_Abort(MPI_COMM_WORLD, 1);
         }
         else
         {
-            quicksort();
+            // print the un-sorted list
+            cout << endl;
+            cout << "[INFO] Unsorted List: ";
+            print_list(numbers, size);
         }
     }
-
-    // fix the starting index for each partial list
-    // & get the partial list from the main list
-    int start_index = rank * n_per_proc;
-    int partial_list[n_per_proc];
-    memcpy(partial_list, &numbers[start_index], sizeof(int)*n_per_proc);*/
-
-    //quicksort(partial_list, n_per_proc, rank);
-    quicksort(numbers, 0, N-1);
-
-    cout << endl;
-    for (int i=0; i<N; i++)
+    else
     {
-        cout << numbers[i] << " ";
+        MPI_Status status;
+        MPI_Recv(numbers,
+                 MAX_LIMIT,
+                 MPI_INT,
+                 (rank-1)/2,
+                 0,
+                 MPI_COMM_WORLD,
+                 &status);
+        MPI_Get_count(&status, MPI_INT, &size);
     }
-    cout << endl;
 
-    /*if (rank == 0)
+    int p_index = create_partition(numbers, 0, size-1);
+    if (2*rank+2 < world_size)
     {
-        // print/write the sorted list into a file
+        // send to left  2*r+1
+        MPI_Send(numbers,
+                 p_index,
+                 MPI_INT,
+                 (2*rank)+1,
+                 0,
+                 MPI_COMM_WORLD);
+
+        // send to right  2*r+2
+        MPI_Send(&numbers[p_index+1],
+                 (size - p_index - 1),
+                 MPI_INT,
+                 (2*rank)+2,
+                 0,
+                 MPI_COMM_WORLD);
+
+        // receive from left  2*r+1
+        MPI_Recv(numbers,
+                 p_index,
+                 MPI_INT,
+                 (2*rank)+1,
+                 0,
+                 MPI_COMM_WORLD,
+                 MPI_STATUS_IGNORE);
+
+        // receive from right  2*r+2
+        MPI_Recv(&numbers[p_index+1],
+                 (size - p_index - 1),
+                 MPI_INT,
+                 (2*rank)+2,
+                 0,
+                 MPI_COMM_WORLD,
+                 MPI_STATUS_IGNORE);
+    }
+    else if (2*rank+1 < world_size)
+    {
+        // send to left  2*r+1
+        MPI_Send(numbers,
+                 p_index,
+                 MPI_INT,
+                 (2*rank)+1,
+                 0,
+                 MPI_COMM_WORLD);
+
+        // perform quicksort on right half
+        quicksort(numbers, p_index+1, size-1);
+
+        // receive from left  2*r+1
+        MPI_Recv(numbers,
+                 p_index,
+                 MPI_INT,
+                 (2*rank)+1,
+                 0,
+                 MPI_COMM_WORLD,
+                 MPI_STATUS_IGNORE);
+    }
+    else
+    {
+        quicksort(numbers, 0, size-1);
+    }
+
+    if (rank != MASTER)
+    {
+        // send back to parent (rank-1)/2 if not master process
+        MPI_Send(numbers,
+                 size,
+                 MPI_INT,
+                 (rank-1)/2,
+                 0,
+                 MPI_COMM_WORLD);
+    }
+    else
+    {
+        // print the sorted list
+        cout << endl;
+        cout << "[INFO] Sorted List: ";
+        print_list(numbers, size);
     }
 
     // Synchronizing all the processes before termination
     MPI_Barrier(MPI_COMM_WORLD);
-    MPI_Finalize();*/
+    MPI_Finalize();
 }
