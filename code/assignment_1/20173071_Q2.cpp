@@ -75,6 +75,7 @@ int parse_input_data(string input_file, int numbers[])
         numbers[index] = stol(token);
         index++;
     }
+    fin.close();
 
     // input data verification
     if (index == size)
