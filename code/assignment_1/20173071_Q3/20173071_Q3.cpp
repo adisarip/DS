@@ -147,36 +147,62 @@ void color_graph(int node)
     return;
 }
 
+void write_output(string output_file)
+{
+    ofstream fout;
+    fout.open(output_file, ios::trunc | ios::out);
+    fout << "G(" << V << "," << E << "):" << endl;
+    for (int i=1; i<=V; i++)
+    {
+        fout << i << " : {"<< flush;
+        for (auto x : G[i])
+        {
+            fout << "(" << x.first << "," << x.second << "),";
+        }
+        fout << "}" << endl;
+    }
+
+    fout << endl;
+
+    for (int i=1; i<=E; i++)
+    {
+        fout << "Edge " << i << " is colored " << colors[i] << endl;
+    }
+    fout.close();
+}
+
 int main(int argc, char* argv[])
 {
     if (argc != 3)
     {
         cout << "[ERR]  Invalid input data." << endl;
-        cout << "[INFO] Usage: ./run <input_file> <output_file>" << endl;
+        cout << "[INFO] Usage: ./a.out <input_file> <output_file>" << endl;
         return 0;
     }
 
-    string input_file = string(argv[1]);  // save the input file
-    string output_file = string(argv[2]); // save the output file
-    int start_index = create_graph(input_file);
-    if (start_index < 0)
-    {
-        exit(1);
-    }
-
-    color_graph(start_index);
-    print_graph();
-    print_colors();
-
-    /*MPI_Init(&argc, &argv);
+    MPI_Init(&argc, &argv);
 
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     int world_size;
     MPI_Comm_size(MPI_COMM_WORLD, &world_size);
 
+    if (rank == MASTER)
+    {
+        string input_file = string(argv[1]);  // save the input file
+        string output_file = string(argv[2]); // save the output file
+        int start_index = create_graph(input_file);
+        if (start_index < 0)
+        {
+            exit(1);
+        }
+        color_graph(start_index);
+        print_graph();
+        print_colors();
+        write_output(output_file);
 
+    }
 
     MPI_Barrier(MPI_COMM_WORLD);
-    MPI_Finalize();*/
+    MPI_Finalize();
 }

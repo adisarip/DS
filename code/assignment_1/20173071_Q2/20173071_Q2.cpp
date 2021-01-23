@@ -109,6 +109,8 @@ int main(int argc, char* argv[])
         cout << "[INFO] Usage: ./run <input_file> <output_file>" << endl;
         return 0;
     }
+    string input_file;
+    string output_file;
 
     MPI_Init(&argc, &argv);
 
@@ -122,8 +124,8 @@ int main(int argc, char* argv[])
 
     if (rank == MASTER)
     {
-        string input_file = string(argv[1]);  // save the input file
-        string output_file = string(argv[2]); // save the output file
+        input_file = string(argv[1]);  // save the input file
+        output_file = string(argv[2]); // save the output file
         size = parse_input_data(input_file, numbers);
 
         if (size > MAX_LIMIT)
@@ -233,6 +235,16 @@ int main(int argc, char* argv[])
         cout << endl;
         cout << "[INFO] Sorted List: ";
         print_list(numbers, size);
+
+        // write the sorted list into file
+        ofstream fout;
+        fout.open(output_file, ios::trunc | ios::out);
+        for (int i=0; i<size; i++)
+        {
+            fout << numbers[i] << " ";
+        }
+        fout << endl;
+        fout.close();
     }
 
     // Synchronizing all the processes before termination

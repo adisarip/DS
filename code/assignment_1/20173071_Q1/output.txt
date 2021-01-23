@@ -1,0 +1,2 @@
+Number of terms in Series: 12000000
+Sum of the Series = 1.644934 | Reference = 1.644934
