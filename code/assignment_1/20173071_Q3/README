@@ -1,0 +1,33 @@
+
+Solution Approach:
+==================
+- Assume process '0' as the master process, and remaining processes as slave processes.
+- Master process will read the input data input file and create the graph data structures.
+- The edge coloring is performed by using the Breadth-first-search as a base algorithm.
+- Select any node and give different colors to all of the edges connected to it,
+  and mark those edges as colored nodes using a 'set'.
+- Then select on of its edges and then (following BFS approach) repeat above steps.
+- Maintain a counter for edge coloring and increment the colors based on the colored set
+  and list of visited nodes.
+- The algorithm mostly uses backtracking for assigning the colors in optimal manner.
+
+
+Compilation:
+============
+> mpic++ 20173071_Q3.cpp
+
+
+Run:
+====
+> mpirun -np 6 ./a.out input.txt output.txt
+G(4,6):
+1 : {(2,1),(4,4),(3,6),}
+2 : {(1,1),(3,2),(4,5),}
+3 : {(2,2),(4,3),(1,6),}
+4 : {(3,3),(1,4),(2,5),}
+Edge 1 is colored 1
+Edge 2 is colored 2
+Edge 3 is colored 1
+Edge 4 is colored 2
+Edge 5 is colored 3
+Edge 6 is colored 3

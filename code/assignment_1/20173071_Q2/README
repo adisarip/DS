@@ -1,0 +1,34 @@
+
+Solution Approach:
+==================
+- Assume process '0' as the master process, and remaining processes as slave processes.
+- Master process will read the number of terms in the unsorted list from the input data input file
+  and create the array of unsorted numbers.
+- Assume the program is run with 6 processes.
+- Then Master process (rank = 0) will create the partition (initial pass) and pass the partitioned
+  list to slaves processes as follows.
+  - left half to the process with rank = 1  (2 * parent_rank + 1)
+  - right half to the process with rank = 2 (2 * parent_rank + 1)
+- Again the slaves processes will divide the sub lists into further partitions are pass to the next
+  processes , until there are processes available.
+- Once the number of processes are exhausted - the last level of processes will perform quicksort on
+  their respective partial lists and pass them to the parent process
+  parent_process_rank = (child_rank - 1) / 2.
+- Finally the Master process (rank = 0) will get the sorted list.
+
+
+Compilation:
+============
+> mpic++ 20173071_Q2.cpp
+
+
+Run:
+====
+> mpirun -np 6 ./a.out input.txt output.txt
+[INFO] Number of elements to be sorted: 20
+
+[INFO] Unsorted List:
+5 8 4 3 9 -4 -11 75 22 29 -34 -12 9 37 19 51 43 21 32 10
+
+[INFO] Sorted List:
+-34 -12 -11 -4 3 4 5 8 9 9 10 19 21 22 29 32 37 43 51 75

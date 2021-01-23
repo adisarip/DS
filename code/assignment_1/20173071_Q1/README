@@ -1,0 +1,25 @@
+
+Solution Approach:
+==================
+- Read the number of terms in the series from the input data input file
+- Based on the number of processes run (n) divide the terms in 'n' chunks
+- Add the remainder terms in the last process
+- In Each process compute the sum of the series of the individual chunks
+- Finally reduce them to final answer.
+
+Based on test results with 12000000 terms the series is converging to (PI * PI)/6.
+
+
+Compilation:
+============
+> mpic++ 20173071_Q1.cpp
+
+
+Run:
+====
+> mpirun -np 6 ./a.out input.txt output.txt
+Sum of the Series = 1.644934 | Reference = 1.644934
+
+
+- Here input.txt has the value of 12000000.
+- Output is also saved in output.txt file.
