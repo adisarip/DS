@@ -1,0 +1,1 @@
+erl -noshell -s '20173071_1' start input.txt output.txt -s init stop
