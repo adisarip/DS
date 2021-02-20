@@ -1,6 +1,6 @@
 -module(test).
 -export([info/0, avg/1, sum/1, len/1]).
--export([bump/1, bump2/1, is_member/2, rev/1]).
+-export([bump/1, bump2/1, is_member/2, rev/1, count/2]).
 
 info() -> io:format("This module is for trying stuff in Erlang.~n").
 
@@ -32,3 +32,8 @@ is_member(_, []) -> false;
 is_member(H, [H|_]) -> true;
 is_member(H, [_|T]) -> is_member(H,T).
 
+count(X,V) ->
+    if
+        X < V-1  -> io:format("X=~p V=~p~n", [X,V]), count(X+1, V);
+        X == V-1 -> io:format("X==V-1==~p~n", [X])
+    end.
