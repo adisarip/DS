@@ -2,6 +2,12 @@
 a.out
 run
 test
+client
+server
+
+# Directories
+thrift
+
 
 # Prerequisites
 *.d
