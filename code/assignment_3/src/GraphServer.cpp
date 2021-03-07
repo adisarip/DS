@@ -1,4 +1,7 @@
-#include "svc/helloSvc.h"
+
+// A Graph Server implementation serving requests on graph manipulations from clients.
+
+#include "service/GraphService.h"
 #include <thrift/server/TSimpleServer.h>
 #include <thrift/transport/TServerSocket.h>
 #include <thrift/transport/TBufferTransports.h>
@@ -12,7 +15,7 @@ using namespace apache::thrift::protocol;
 using namespace apache::thrift::transport;
 
 
-class helloSvcHandler : public helloSvcIf
+class GraphServiceHandler : public GraphServiceIf
 {
 public:
     virtual void getMessage(string& return_str, const string& name) override
@@ -24,8 +27,8 @@ public:
 
 int main ()
 {
-    auto handler = make_shared<helloSvcHandler> ();
-    auto processor = make_shared<helloSvcProcessor> (handler);
+    auto handler = make_shared<GraphServiceHandler> ();
+    auto processor = make_shared<GraphServiceProcessor> (handler);
 
     auto trans_server = make_shared<TServerSocket> (9090);
     auto trans_factory = make_shared<TBufferedTransportFactory> ();

@@ -4,8 +4,8 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
  *  @generated
  */
-#ifndef hello_TYPES_H
-#define hello_TYPES_H
+#ifndef interface_TYPES_H
+#define interface_TYPES_H
 
 #include <iosfwd>
 

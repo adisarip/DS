@@ -4,16 +4,16 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
  *  @generated
  */
-#include "helloSvc.h"
+#include "GraphService.h"
 
 
 
 
-helloSvc_getMessage_args::~helloSvc_getMessage_args() noexcept {
+GraphService_getMessage_args::~GraphService_getMessage_args() noexcept {
 }
 
 
-uint32_t helloSvc_getMessage_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t GraphService_getMessage_args::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -54,10 +54,10 @@ uint32_t helloSvc_getMessage_args::read(::apache::thrift::protocol::TProtocol* i
   return xfer;
 }
 
-uint32_t helloSvc_getMessage_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t GraphService_getMessage_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("helloSvc_getMessage_args");
+  xfer += oprot->writeStructBegin("GraphService_getMessage_args");
 
   xfer += oprot->writeFieldBegin("name", ::apache::thrift::protocol::T_STRING, 1);
   xfer += oprot->writeString(this->name);
@@ -69,14 +69,14 @@ uint32_t helloSvc_getMessage_args::write(::apache::thrift::protocol::TProtocol* 
 }
 
 
-helloSvc_getMessage_pargs::~helloSvc_getMessage_pargs() noexcept {
+GraphService_getMessage_pargs::~GraphService_getMessage_pargs() noexcept {
 }
 
 
-uint32_t helloSvc_getMessage_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t GraphService_getMessage_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("helloSvc_getMessage_pargs");
+  xfer += oprot->writeStructBegin("GraphService_getMessage_pargs");
 
   xfer += oprot->writeFieldBegin("name", ::apache::thrift::protocol::T_STRING, 1);
   xfer += oprot->writeString((*(this->name)));
@@ -88,11 +88,11 @@ uint32_t helloSvc_getMessage_pargs::write(::apache::thrift::protocol::TProtocol*
 }
 
 
-helloSvc_getMessage_result::~helloSvc_getMessage_result() noexcept {
+GraphService_getMessage_result::~GraphService_getMessage_result() noexcept {
 }
 
 
-uint32_t helloSvc_getMessage_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t GraphService_getMessage_result::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -133,11 +133,11 @@ uint32_t helloSvc_getMessage_result::read(::apache::thrift::protocol::TProtocol*
   return xfer;
 }
 
-uint32_t helloSvc_getMessage_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t GraphService_getMessage_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
 
   uint32_t xfer = 0;
 
-  xfer += oprot->writeStructBegin("helloSvc_getMessage_result");
+  xfer += oprot->writeStructBegin("GraphService_getMessage_result");
 
   if (this->__isset.success) {
     xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_STRING, 0);
@@ -150,11 +150,11 @@ uint32_t helloSvc_getMessage_result::write(::apache::thrift::protocol::TProtocol
 }
 
 
-helloSvc_getMessage_presult::~helloSvc_getMessage_presult() noexcept {
+GraphService_getMessage_presult::~GraphService_getMessage_presult() noexcept {
 }
 
 
-uint32_t helloSvc_getMessage_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t GraphService_getMessage_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -195,18 +195,18 @@ uint32_t helloSvc_getMessage_presult::read(::apache::thrift::protocol::TProtocol
   return xfer;
 }
 
-void helloSvcClient::getMessage(std::string& _return, const std::string& name)
+void GraphServiceClient::getMessage(std::string& _return, const std::string& name)
 {
   send_getMessage(name);
   recv_getMessage(_return);
 }
 
-void helloSvcClient::send_getMessage(const std::string& name)
+void GraphServiceClient::send_getMessage(const std::string& name)
 {
   int32_t cseqid = 0;
   oprot_->writeMessageBegin("getMessage", ::apache::thrift::protocol::T_CALL, cseqid);
 
-  helloSvc_getMessage_pargs args;
+  GraphService_getMessage_pargs args;
   args.name = &name;
   args.write(oprot_);
 
@@ -215,7 +215,7 @@ void helloSvcClient::send_getMessage(const std::string& name)
   oprot_->getTransport()->flush();
 }
 
-void helloSvcClient::recv_getMessage(std::string& _return)
+void GraphServiceClient::recv_getMessage(std::string& _return)
 {
 
   int32_t rseqid = 0;
@@ -240,7 +240,7 @@ void helloSvcClient::recv_getMessage(std::string& _return)
     iprot_->readMessageEnd();
     iprot_->getTransport()->readEnd();
   }
-  helloSvc_getMessage_presult result;
+  GraphService_getMessage_presult result;
   result.success = &_return;
   result.read(iprot_);
   iprot_->readMessageEnd();
@@ -253,7 +253,7 @@ void helloSvcClient::recv_getMessage(std::string& _return)
   throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "getMessage failed: unknown result");
 }
 
-bool helloSvcProcessor::dispatchCall(::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, const std::string& fname, int32_t seqid, void* callContext) {
+bool GraphServiceProcessor::dispatchCall(::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, const std::string& fname, int32_t seqid, void* callContext) {
   ProcessMap::iterator pfn;
   pfn = processMap_.find(fname);
   if (pfn == processMap_.end()) {
@@ -272,34 +272,34 @@ bool helloSvcProcessor::dispatchCall(::apache::thrift::protocol::TProtocol* ipro
   return true;
 }
 
-void helloSvcProcessor::process_getMessage(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+void GraphServiceProcessor::process_getMessage(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
 {
   void* ctx = nullptr;
   if (this->eventHandler_.get() != nullptr) {
-    ctx = this->eventHandler_->getContext("helloSvc.getMessage", callContext);
+    ctx = this->eventHandler_->getContext("GraphService.getMessage", callContext);
   }
-  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "helloSvc.getMessage");
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "GraphService.getMessage");
 
   if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->preRead(ctx, "helloSvc.getMessage");
+    this->eventHandler_->preRead(ctx, "GraphService.getMessage");
   }
 
-  helloSvc_getMessage_args args;
+  GraphService_getMessage_args args;
   args.read(iprot);
   iprot->readMessageEnd();
   uint32_t bytes = iprot->getTransport()->readEnd();
 
   if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->postRead(ctx, "helloSvc.getMessage", bytes);
+    this->eventHandler_->postRead(ctx, "GraphService.getMessage", bytes);
   }
 
-  helloSvc_getMessage_result result;
+  GraphService_getMessage_result result;
   try {
     iface_->getMessage(result.success, args.name);
     result.__isset.success = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != nullptr) {
-      this->eventHandler_->handlerError(ctx, "helloSvc.getMessage");
+      this->eventHandler_->handlerError(ctx, "GraphService.getMessage");
     }
 
     ::apache::thrift::TApplicationException x(e.what());
@@ -312,7 +312,7 @@ void helloSvcProcessor::process_getMessage(int32_t seqid, ::apache::thrift::prot
   }
 
   if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->preWrite(ctx, "helloSvc.getMessage");
+    this->eventHandler_->preWrite(ctx, "GraphService.getMessage");
   }
 
   oprot->writeMessageBegin("getMessage", ::apache::thrift::protocol::T_REPLY, seqid);
@@ -322,30 +322,30 @@ void helloSvcProcessor::process_getMessage(int32_t seqid, ::apache::thrift::prot
   oprot->getTransport()->flush();
 
   if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->postWrite(ctx, "helloSvc.getMessage", bytes);
+    this->eventHandler_->postWrite(ctx, "GraphService.getMessage", bytes);
   }
 }
 
-::std::shared_ptr< ::apache::thrift::TProcessor > helloSvcProcessorFactory::getProcessor(const ::apache::thrift::TConnectionInfo& connInfo) {
-  ::apache::thrift::ReleaseHandler< helloSvcIfFactory > cleanup(handlerFactory_);
-  ::std::shared_ptr< helloSvcIf > handler(handlerFactory_->getHandler(connInfo), cleanup);
-  ::std::shared_ptr< ::apache::thrift::TProcessor > processor(new helloSvcProcessor(handler));
+::std::shared_ptr< ::apache::thrift::TProcessor > GraphServiceProcessorFactory::getProcessor(const ::apache::thrift::TConnectionInfo& connInfo) {
+  ::apache::thrift::ReleaseHandler< GraphServiceIfFactory > cleanup(handlerFactory_);
+  ::std::shared_ptr< GraphServiceIf > handler(handlerFactory_->getHandler(connInfo), cleanup);
+  ::std::shared_ptr< ::apache::thrift::TProcessor > processor(new GraphServiceProcessor(handler));
   return processor;
 }
 
-void helloSvcConcurrentClient::getMessage(std::string& _return, const std::string& name)
+void GraphServiceConcurrentClient::getMessage(std::string& _return, const std::string& name)
 {
   int32_t seqid = send_getMessage(name);
   recv_getMessage(_return, seqid);
 }
 
-int32_t helloSvcConcurrentClient::send_getMessage(const std::string& name)
+int32_t GraphServiceConcurrentClient::send_getMessage(const std::string& name)
 {
   int32_t cseqid = this->sync_->generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
   oprot_->writeMessageBegin("getMessage", ::apache::thrift::protocol::T_CALL, cseqid);
 
-  helloSvc_getMessage_pargs args;
+  GraphService_getMessage_pargs args;
   args.name = &name;
   args.write(oprot_);
 
@@ -357,7 +357,7 @@ int32_t helloSvcConcurrentClient::send_getMessage(const std::string& name)
   return cseqid;
 }
 
-void helloSvcConcurrentClient::recv_getMessage(std::string& _return, const int32_t seqid)
+void GraphServiceConcurrentClient::recv_getMessage(std::string& _return, const int32_t seqid)
 {
 
   int32_t rseqid = 0;
@@ -395,7 +395,7 @@ void helloSvcConcurrentClient::recv_getMessage(std::string& _return, const int32
         using ::apache::thrift::protocol::TProtocolException;
         throw TProtocolException(TProtocolException::INVALID_DATA);
       }
-      helloSvc_getMessage_presult result;
+      GraphService_getMessage_presult result;
       result.success = &_return;
       result.read(iprot_);
       iprot_->readMessageEnd();

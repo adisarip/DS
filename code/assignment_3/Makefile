@@ -17,17 +17,15 @@ LDFLAGS = -lthrift
 SRCDIR  = ./src
 OBJDIR  = ./obj
 BINDIR  = ./bin
-SVCDIR  = ./src/svc
+SVCDIR  = ./src/service
 
-THRIFT_DIR = /usr/local/Cellar/thrift/0.14.0/include
-BOOST_DIR  = /usr/local/opt/boost/include
-INCLUDE = -I./ -I$(THRIFT_DIR)/ -I$(BOOST_DIR)/
+INCLUDE = -I./ -I/usr/local/Cellar/thrift/0.14.0/include
 LD_LIBRARY_PATH = -L/usr/local/Cellar/thrift/0.14.0/lib
 
-IDL_FILES     = $(SRCDIR)/hello.thrift
-ClIENT_FILES  = $(SRCDIR)/hello_client.cpp
-SERVER_FILES  = $(SRCDIR)/hello_server.cpp
-SVC_FILES     = $(SVCDIR)/helloSvc.cpp
+IDL_FILES     = $(SRCDIR)/interface.thrift
+ClIENT_FILES  = $(SRCDIR)/GraphClient.cpp
+SERVER_FILES  = $(SRCDIR)/GraphServer.cpp
+SVC_FILES     = $(SVCDIR)/GraphService.cpp
 
 CLIENT_OBJECTS := $(ClIENT_FILES:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
 SERVER_OBJECTS := $(SERVER_FILES:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
@@ -48,8 +46,9 @@ $(SVC_OBJECTS): $(OBJDIR)/%.o : $(SVCDIR)/%.cpp
 	$(CXX) $(CCFLAGS) $(INCLUDE) -c $< -o $@
 	@echo "Compiled "$<" successfully."
 
-interface:
+service:
 	@echo "Generating interface files."
+	mkdir -p $(SVCDIR)
 	$(THRIFT) -out $(SVCDIR) --gen cpp $(IDL_FILES)
 
 client: $(CLIENT_OBJECTS) $(SVC_OBJECTS)
@@ -62,8 +61,8 @@ server: $(SERVER_OBJECTS) $(SVC_OBJECTS)
 	@echo "Linking server objects complete."
 	@echo "To start the \"Server\" run --> \"$(SERVER_TARGET)\""
 
-all: interface client server
+all: service client server
 
 clean:
 	@echo "Cleaning all the object files and binaries."
-	rm -f core $(BINDIR)/* $(OBJDIR)/*
+	rm -f core $(SVCDIR)/* $(BINDIR)/* $(OBJDIR)/*

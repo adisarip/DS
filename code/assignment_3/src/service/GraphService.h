@@ -4,13 +4,13 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
  *  @generated
  */
-#ifndef helloSvc_H
-#define helloSvc_H
+#ifndef GraphService_H
+#define GraphService_H
 
 #include <thrift/TDispatchProcessor.h>
 #include <thrift/async/TConcurrentClientSyncInfo.h>
 #include <memory>
-#include "hello_types.h"
+#include "interface_types.h"
 
 
 
@@ -19,75 +19,75 @@
   #pragma warning (disable : 4250 ) //inheriting methods via dominance 
 #endif
 
-class helloSvcIf {
+class GraphServiceIf {
  public:
-  virtual ~helloSvcIf() {}
+  virtual ~GraphServiceIf() {}
   virtual void getMessage(std::string& _return, const std::string& name) = 0;
 };
 
-class helloSvcIfFactory {
+class GraphServiceIfFactory {
  public:
-  typedef helloSvcIf Handler;
+  typedef GraphServiceIf Handler;
 
-  virtual ~helloSvcIfFactory() {}
+  virtual ~GraphServiceIfFactory() {}
 
-  virtual helloSvcIf* getHandler(const ::apache::thrift::TConnectionInfo& connInfo) = 0;
-  virtual void releaseHandler(helloSvcIf* /* handler */) = 0;
+  virtual GraphServiceIf* getHandler(const ::apache::thrift::TConnectionInfo& connInfo) = 0;
+  virtual void releaseHandler(GraphServiceIf* /* handler */) = 0;
 };
 
-class helloSvcIfSingletonFactory : virtual public helloSvcIfFactory {
+class GraphServiceIfSingletonFactory : virtual public GraphServiceIfFactory {
  public:
-  helloSvcIfSingletonFactory(const ::std::shared_ptr<helloSvcIf>& iface) : iface_(iface) {}
-  virtual ~helloSvcIfSingletonFactory() {}
+  GraphServiceIfSingletonFactory(const ::std::shared_ptr<GraphServiceIf>& iface) : iface_(iface) {}
+  virtual ~GraphServiceIfSingletonFactory() {}
 
-  virtual helloSvcIf* getHandler(const ::apache::thrift::TConnectionInfo&) {
+  virtual GraphServiceIf* getHandler(const ::apache::thrift::TConnectionInfo&) {
     return iface_.get();
   }
-  virtual void releaseHandler(helloSvcIf* /* handler */) {}
+  virtual void releaseHandler(GraphServiceIf* /* handler */) {}
 
  protected:
-  ::std::shared_ptr<helloSvcIf> iface_;
+  ::std::shared_ptr<GraphServiceIf> iface_;
 };
 
-class helloSvcNull : virtual public helloSvcIf {
+class GraphServiceNull : virtual public GraphServiceIf {
  public:
-  virtual ~helloSvcNull() {}
+  virtual ~GraphServiceNull() {}
   void getMessage(std::string& /* _return */, const std::string& /* name */) {
     return;
   }
 };
 
-typedef struct _helloSvc_getMessage_args__isset {
-  _helloSvc_getMessage_args__isset() : name(false) {}
+typedef struct _GraphService_getMessage_args__isset {
+  _GraphService_getMessage_args__isset() : name(false) {}
   bool name :1;
-} _helloSvc_getMessage_args__isset;
+} _GraphService_getMessage_args__isset;
 
-class helloSvc_getMessage_args {
+class GraphService_getMessage_args {
  public:
 
-  helloSvc_getMessage_args(const helloSvc_getMessage_args&);
-  helloSvc_getMessage_args& operator=(const helloSvc_getMessage_args&);
-  helloSvc_getMessage_args() : name() {
+  GraphService_getMessage_args(const GraphService_getMessage_args&);
+  GraphService_getMessage_args& operator=(const GraphService_getMessage_args&);
+  GraphService_getMessage_args() : name() {
   }
 
-  virtual ~helloSvc_getMessage_args() noexcept;
+  virtual ~GraphService_getMessage_args() noexcept;
   std::string name;
 
-  _helloSvc_getMessage_args__isset __isset;
+  _GraphService_getMessage_args__isset __isset;
 
   void __set_name(const std::string& val);
 
-  bool operator == (const helloSvc_getMessage_args & rhs) const
+  bool operator == (const GraphService_getMessage_args & rhs) const
   {
     if (!(name == rhs.name))
       return false;
     return true;
   }
-  bool operator != (const helloSvc_getMessage_args &rhs) const {
+  bool operator != (const GraphService_getMessage_args &rhs) const {
     return !(*this == rhs);
   }
 
-  bool operator < (const helloSvc_getMessage_args & ) const;
+  bool operator < (const GraphService_getMessage_args & ) const;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
@@ -95,78 +95,78 @@ class helloSvc_getMessage_args {
 };
 
 
-class helloSvc_getMessage_pargs {
+class GraphService_getMessage_pargs {
  public:
 
 
-  virtual ~helloSvc_getMessage_pargs() noexcept;
+  virtual ~GraphService_getMessage_pargs() noexcept;
   const std::string* name;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
 };
 
-typedef struct _helloSvc_getMessage_result__isset {
-  _helloSvc_getMessage_result__isset() : success(false) {}
+typedef struct _GraphService_getMessage_result__isset {
+  _GraphService_getMessage_result__isset() : success(false) {}
   bool success :1;
-} _helloSvc_getMessage_result__isset;
+} _GraphService_getMessage_result__isset;
 
-class helloSvc_getMessage_result {
+class GraphService_getMessage_result {
  public:
 
-  helloSvc_getMessage_result(const helloSvc_getMessage_result&);
-  helloSvc_getMessage_result& operator=(const helloSvc_getMessage_result&);
-  helloSvc_getMessage_result() : success() {
+  GraphService_getMessage_result(const GraphService_getMessage_result&);
+  GraphService_getMessage_result& operator=(const GraphService_getMessage_result&);
+  GraphService_getMessage_result() : success() {
   }
 
-  virtual ~helloSvc_getMessage_result() noexcept;
+  virtual ~GraphService_getMessage_result() noexcept;
   std::string success;
 
-  _helloSvc_getMessage_result__isset __isset;
+  _GraphService_getMessage_result__isset __isset;
 
   void __set_success(const std::string& val);
 
-  bool operator == (const helloSvc_getMessage_result & rhs) const
+  bool operator == (const GraphService_getMessage_result & rhs) const
   {
     if (!(success == rhs.success))
       return false;
     return true;
   }
-  bool operator != (const helloSvc_getMessage_result &rhs) const {
+  bool operator != (const GraphService_getMessage_result &rhs) const {
     return !(*this == rhs);
   }
 
-  bool operator < (const helloSvc_getMessage_result & ) const;
+  bool operator < (const GraphService_getMessage_result & ) const;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
 };
 
-typedef struct _helloSvc_getMessage_presult__isset {
-  _helloSvc_getMessage_presult__isset() : success(false) {}
+typedef struct _GraphService_getMessage_presult__isset {
+  _GraphService_getMessage_presult__isset() : success(false) {}
   bool success :1;
-} _helloSvc_getMessage_presult__isset;
+} _GraphService_getMessage_presult__isset;
 
-class helloSvc_getMessage_presult {
+class GraphService_getMessage_presult {
  public:
 
 
-  virtual ~helloSvc_getMessage_presult() noexcept;
+  virtual ~GraphService_getMessage_presult() noexcept;
   std::string* success;
 
-  _helloSvc_getMessage_presult__isset __isset;
+  _GraphService_getMessage_presult__isset __isset;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
 
 };
 
-class helloSvcClient : virtual public helloSvcIf {
+class GraphServiceClient : virtual public GraphServiceIf {
  public:
-  helloSvcClient(std::shared_ptr< ::apache::thrift::protocol::TProtocol> prot) {
+  GraphServiceClient(std::shared_ptr< ::apache::thrift::protocol::TProtocol> prot) {
     setProtocol(prot);
   }
-  helloSvcClient(std::shared_ptr< ::apache::thrift::protocol::TProtocol> iprot, std::shared_ptr< ::apache::thrift::protocol::TProtocol> oprot) {
+  GraphServiceClient(std::shared_ptr< ::apache::thrift::protocol::TProtocol> iprot, std::shared_ptr< ::apache::thrift::protocol::TProtocol> oprot) {
     setProtocol(iprot,oprot);
   }
  private:
@@ -196,44 +196,44 @@ class helloSvcClient : virtual public helloSvcIf {
   ::apache::thrift::protocol::TProtocol* oprot_;
 };
 
-class helloSvcProcessor : public ::apache::thrift::TDispatchProcessor {
+class GraphServiceProcessor : public ::apache::thrift::TDispatchProcessor {
  protected:
-  ::std::shared_ptr<helloSvcIf> iface_;
+  ::std::shared_ptr<GraphServiceIf> iface_;
   virtual bool dispatchCall(::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, const std::string& fname, int32_t seqid, void* callContext);
  private:
-  typedef  void (helloSvcProcessor::*ProcessFunction)(int32_t, ::apache::thrift::protocol::TProtocol*, ::apache::thrift::protocol::TProtocol*, void*);
+  typedef  void (GraphServiceProcessor::*ProcessFunction)(int32_t, ::apache::thrift::protocol::TProtocol*, ::apache::thrift::protocol::TProtocol*, void*);
   typedef std::map<std::string, ProcessFunction> ProcessMap;
   ProcessMap processMap_;
   void process_getMessage(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
  public:
-  helloSvcProcessor(::std::shared_ptr<helloSvcIf> iface) :
+  GraphServiceProcessor(::std::shared_ptr<GraphServiceIf> iface) :
     iface_(iface) {
-    processMap_["getMessage"] = &helloSvcProcessor::process_getMessage;
+    processMap_["getMessage"] = &GraphServiceProcessor::process_getMessage;
   }
 
-  virtual ~helloSvcProcessor() {}
+  virtual ~GraphServiceProcessor() {}
 };
 
-class helloSvcProcessorFactory : public ::apache::thrift::TProcessorFactory {
+class GraphServiceProcessorFactory : public ::apache::thrift::TProcessorFactory {
  public:
-  helloSvcProcessorFactory(const ::std::shared_ptr< helloSvcIfFactory >& handlerFactory) :
+  GraphServiceProcessorFactory(const ::std::shared_ptr< GraphServiceIfFactory >& handlerFactory) :
       handlerFactory_(handlerFactory) {}
 
   ::std::shared_ptr< ::apache::thrift::TProcessor > getProcessor(const ::apache::thrift::TConnectionInfo& connInfo);
 
  protected:
-  ::std::shared_ptr< helloSvcIfFactory > handlerFactory_;
+  ::std::shared_ptr< GraphServiceIfFactory > handlerFactory_;
 };
 
-class helloSvcMultiface : virtual public helloSvcIf {
+class GraphServiceMultiface : virtual public GraphServiceIf {
  public:
-  helloSvcMultiface(std::vector<std::shared_ptr<helloSvcIf> >& ifaces) : ifaces_(ifaces) {
+  GraphServiceMultiface(std::vector<std::shared_ptr<GraphServiceIf> >& ifaces) : ifaces_(ifaces) {
   }
-  virtual ~helloSvcMultiface() {}
+  virtual ~GraphServiceMultiface() {}
  protected:
-  std::vector<std::shared_ptr<helloSvcIf> > ifaces_;
-  helloSvcMultiface() {}
-  void add(::std::shared_ptr<helloSvcIf> iface) {
+  std::vector<std::shared_ptr<GraphServiceIf> > ifaces_;
+  GraphServiceMultiface() {}
+  void add(::std::shared_ptr<GraphServiceIf> iface) {
     ifaces_.push_back(iface);
   }
  public:
@@ -252,13 +252,13 @@ class helloSvcMultiface : virtual public helloSvcIf {
 // The 'concurrent' client is a thread safe client that correctly handles
 // out of order responses.  It is slower than the regular client, so should
 // only be used when you need to share a connection among multiple threads
-class helloSvcConcurrentClient : virtual public helloSvcIf {
+class GraphServiceConcurrentClient : virtual public GraphServiceIf {
  public:
-  helloSvcConcurrentClient(std::shared_ptr< ::apache::thrift::protocol::TProtocol> prot, std::shared_ptr<::apache::thrift::async::TConcurrentClientSyncInfo> sync) : sync_(sync)
+  GraphServiceConcurrentClient(std::shared_ptr< ::apache::thrift::protocol::TProtocol> prot, std::shared_ptr<::apache::thrift::async::TConcurrentClientSyncInfo> sync) : sync_(sync)
 {
     setProtocol(prot);
   }
-  helloSvcConcurrentClient(std::shared_ptr< ::apache::thrift::protocol::TProtocol> iprot, std::shared_ptr< ::apache::thrift::protocol::TProtocol> oprot, std::shared_ptr<::apache::thrift::async::TConcurrentClientSyncInfo> sync) : sync_(sync)
+  GraphServiceConcurrentClient(std::shared_ptr< ::apache::thrift::protocol::TProtocol> iprot, std::shared_ptr< ::apache::thrift::protocol::TProtocol> oprot, std::shared_ptr<::apache::thrift::async::TConcurrentClientSyncInfo> sync) : sync_(sync)
 {
     setProtocol(iprot,oprot);
   }
