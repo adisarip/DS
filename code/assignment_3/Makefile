@@ -24,7 +24,7 @@ LD_LIBRARY_PATH = -L/usr/local/Cellar/thrift/0.14.0/lib
 
 IDL_FILES     = $(SRCDIR)/interface.thrift
 ClIENT_FILES  = $(SRCDIR)/GraphClient.cpp
-SERVER_FILES  = $(SRCDIR)/GraphServer.cpp
+SERVER_FILES  = $(SRCDIR)/GraphServer.cpp $(SRCDIR)/Graph.cpp
 SVC_FILES     = $(SVCDIR)/GraphService.cpp
 
 CLIENT_OBJECTS := $(ClIENT_FILES:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)

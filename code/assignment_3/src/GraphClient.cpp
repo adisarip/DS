@@ -68,15 +68,15 @@ void displayMenu()
 
 int main()
 {
-    shared_ptr<TTransport> transaction;
-    transaction = make_shared<TSocket> ("localhost", 9090);
-    transaction = make_shared<TBufferedTransport> (transaction);
-    auto proto = make_shared<TBinaryProtocol> (transaction);
+    shared_ptr<TTransport> trans;
+    trans = make_shared<TSocket> ("localhost", 9090);
+    trans = make_shared<TBufferedTransport> (trans);
+    auto proto = make_shared<TBinaryProtocol> (trans);
     GraphServiceClient client(proto);
 
     try
     {
-        transaction->open();
+        trans->open();
         cout << "[INFO] Performing Graph Operations using RPC" << endl;
         cout << "[INFO] Operations Supported are ..." << endl;
         while (1)
@@ -96,5 +96,5 @@ int main()
     {
         cout << "[ERROR] Client Caught an Exception" << endl;
     }
-    transaction->close();
+    trans->close();
 }

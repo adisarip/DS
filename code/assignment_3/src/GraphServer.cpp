@@ -2,7 +2,8 @@
 // A Graph Server implementation serving requests on graph manipulations from clients.
 
 #include "service/GraphService.h"
-#include <thrift/server/TSimpleServer.h>
+#include "Graph.h"
+#include <thrift/server/TThreadedServer.h>
 #include <thrift/transport/TServerSocket.h>
 #include <thrift/transport/TBufferTransports.h>
 #include <thrift/protocol/TBinaryProtocol.h>
@@ -13,62 +14,7 @@ using namespace std;
 using namespace apache::thrift::server;
 using namespace apache::thrift::protocol;
 using namespace apache::thrift::transport;
-
-// Implementing Kruskals Algorithm to compute the cost of Minimum Spanning Tree
-// using union-find data structure
-
-struct Edge
-{
-    Edge (){};
-    Edge (int _u, int _v, int _w):u(_u),v(_v),w(_w){};
-    int u; // Source Vertex
-    int v; // Destination Vertex
-    int w; // Edge Weight
-};
-
-class Graph
-{
-public:
-    Graph(int nodeCount);
-    ~Graph();
-    void addEdge(const int u, const int v, const int w);
-    int getMSTWeight();
-private:
-    int mNodesCount;
-    int mEdgesCount;
-    vector<Edge*> mEdgeList;
-};
-
-// Constructor
-Graph::Graph(int nodeCount)
-:mNodesCount(nodeCount)
-,mEdgesCount(0)
-{
-}
-
-Graph::~Graph()
-{
-    // Destructor
-    mNodesCount = 0;
-    mEdgesCount = 0;
-    for(Edge* pEdge : mEdgeList)
-    {
-        delete pEdge;
-    }
-}
-
-void Graph::addEdge(const int u, const int v, const int w)
-{
-    // Add edge in the graph
-    Edge* pEdge = new Edge(u,v,w);
-    mEdgeList.push_back(pEdge);
-}
-
-int Graph::getMSTWeight()
-{
-    // return weight of the Minimum Spanning Tree
-    return 220;
-}
+using namespace apache::thrift::concurrency;
 
 class GraphServiceHandler : public GraphServiceIf
 {
@@ -98,7 +44,9 @@ int GraphServiceHandler::addEdge(const string& graphId, const int u, const int v
     Graph* pGraph = mGraphContainer[graphId];
     if (NULL != pGraph)
     {
-        cout << "[RPCQ] Adding un-directed edge (" << u  << "--" << v << ") to the graph \"" << graphId << "\"" << endl;
+        cout << "[RPCQ] Adding un-directed edge "
+             << "[" << u  << "--" << "(" << w << ")" << "--" << v << "]"
+             << " to the graph \"" << graphId << "\"" << endl;
         pGraph->addEdge(u, v, w);
     }
     else
@@ -112,7 +60,12 @@ int GraphServiceHandler::addEdge(const string& graphId, const int u, const int v
 int GraphServiceHandler::getMSTWeight(const string& graphId)
 {
     cout << "[RPCQ] Requesting MST weight for graph \"" << graphId << "\"" << endl;
-    int sMSTWeight = mGraphContainer[graphId]->getMSTWeight();
+    Graph* pGraph = mGraphContainer[graphId];
+    int sMSTWeight = -1;
+    if (NULL != pGraph)
+    {
+        sMSTWeight = pGraph->getMSTWeight();
+    }
     return sMSTWeight;
 }
 
@@ -125,7 +78,7 @@ int main ()
     auto trans_factory = make_shared<TBufferedTransportFactory> ();
     auto proto_factory = make_shared<TBinaryProtocolFactory> ();
 
-    TSimpleServer server(processor, trans_server, trans_factory, proto_factory);
+    TThreadedServer server(processor, trans_server, trans_factory, proto_factory);
     server.serve();
     return 0;
 }
