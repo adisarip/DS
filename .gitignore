@@ -2,8 +2,6 @@
 a.out
 run
 test
-bin/client
-bin/server
 
 # Directories
 thrift
