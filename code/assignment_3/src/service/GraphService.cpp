@@ -9,11 +9,11 @@
 
 
 
-GraphService_getMessage_args::~GraphService_getMessage_args() noexcept {
+GraphService_addGraph_args::~GraphService_addGraph_args() noexcept {
 }
 
 
-uint32_t GraphService_getMessage_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t GraphService_addGraph_args::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -36,8 +36,16 @@ uint32_t GraphService_getMessage_args::read(::apache::thrift::protocol::TProtoco
     {
       case 1:
         if (ftype == ::apache::thrift::protocol::T_STRING) {
-          xfer += iprot->readString(this->name);
-          this->__isset.name = true;
+          xfer += iprot->readString(this->graphId);
+          this->__isset.graphId = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->nodeCount);
+          this->__isset.nodeCount = true;
         } else {
           xfer += iprot->skip(ftype);
         }
@@ -54,13 +62,17 @@ uint32_t GraphService_getMessage_args::read(::apache::thrift::protocol::TProtoco
   return xfer;
 }
 
-uint32_t GraphService_getMessage_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t GraphService_addGraph_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("GraphService_getMessage_args");
+  xfer += oprot->writeStructBegin("GraphService_addGraph_args");
 
-  xfer += oprot->writeFieldBegin("name", ::apache::thrift::protocol::T_STRING, 1);
-  xfer += oprot->writeString(this->name);
+  xfer += oprot->writeFieldBegin("graphId", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString(this->graphId);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("nodeCount", ::apache::thrift::protocol::T_I32, 2);
+  xfer += oprot->writeI32(this->nodeCount);
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
@@ -69,17 +81,21 @@ uint32_t GraphService_getMessage_args::write(::apache::thrift::protocol::TProtoc
 }
 
 
-GraphService_getMessage_pargs::~GraphService_getMessage_pargs() noexcept {
+GraphService_addGraph_pargs::~GraphService_addGraph_pargs() noexcept {
 }
 
 
-uint32_t GraphService_getMessage_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t GraphService_addGraph_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
   uint32_t xfer = 0;
   ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
-  xfer += oprot->writeStructBegin("GraphService_getMessage_pargs");
+  xfer += oprot->writeStructBegin("GraphService_addGraph_pargs");
 
-  xfer += oprot->writeFieldBegin("name", ::apache::thrift::protocol::T_STRING, 1);
-  xfer += oprot->writeString((*(this->name)));
+  xfer += oprot->writeFieldBegin("graphId", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString((*(this->graphId)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("nodeCount", ::apache::thrift::protocol::T_I32, 2);
+  xfer += oprot->writeI32((*(this->nodeCount)));
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
@@ -88,11 +104,138 @@ uint32_t GraphService_getMessage_pargs::write(::apache::thrift::protocol::TProto
 }
 
 
-GraphService_getMessage_result::~GraphService_getMessage_result() noexcept {
+GraphService_addEdge_args::~GraphService_addEdge_args() noexcept {
 }
 
 
-uint32_t GraphService_getMessage_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t GraphService_addEdge_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->graphId);
+          this->__isset.graphId = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->srcNode);
+          this->__isset.srcNode = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 3:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->dstNode);
+          this->__isset.dstNode = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 4:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->edgeWeight);
+          this->__isset.edgeWeight = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t GraphService_addEdge_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("GraphService_addEdge_args");
+
+  xfer += oprot->writeFieldBegin("graphId", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString(this->graphId);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("srcNode", ::apache::thrift::protocol::T_I32, 2);
+  xfer += oprot->writeI32(this->srcNode);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("dstNode", ::apache::thrift::protocol::T_I32, 3);
+  xfer += oprot->writeI32(this->dstNode);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("edgeWeight", ::apache::thrift::protocol::T_I32, 4);
+  xfer += oprot->writeI32(this->edgeWeight);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+GraphService_addEdge_pargs::~GraphService_addEdge_pargs() noexcept {
+}
+
+
+uint32_t GraphService_addEdge_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("GraphService_addEdge_pargs");
+
+  xfer += oprot->writeFieldBegin("graphId", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString((*(this->graphId)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("srcNode", ::apache::thrift::protocol::T_I32, 2);
+  xfer += oprot->writeI32((*(this->srcNode)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("dstNode", ::apache::thrift::protocol::T_I32, 3);
+  xfer += oprot->writeI32((*(this->dstNode)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("edgeWeight", ::apache::thrift::protocol::T_I32, 4);
+  xfer += oprot->writeI32((*(this->edgeWeight)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+GraphService_addEdge_result::~GraphService_addEdge_result() noexcept {
+}
+
+
+uint32_t GraphService_addEdge_result::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -114,8 +257,8 @@ uint32_t GraphService_getMessage_result::read(::apache::thrift::protocol::TProto
     switch (fid)
     {
       case 0:
-        if (ftype == ::apache::thrift::protocol::T_STRING) {
-          xfer += iprot->readString(this->success);
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->success);
           this->__isset.success = true;
         } else {
           xfer += iprot->skip(ftype);
@@ -133,15 +276,15 @@ uint32_t GraphService_getMessage_result::read(::apache::thrift::protocol::TProto
   return xfer;
 }
 
-uint32_t GraphService_getMessage_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+uint32_t GraphService_addEdge_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
 
   uint32_t xfer = 0;
 
-  xfer += oprot->writeStructBegin("GraphService_getMessage_result");
+  xfer += oprot->writeStructBegin("GraphService_addEdge_result");
 
   if (this->__isset.success) {
-    xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_STRING, 0);
-    xfer += oprot->writeString(this->success);
+    xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_I32, 0);
+    xfer += oprot->writeI32(this->success);
     xfer += oprot->writeFieldEnd();
   }
   xfer += oprot->writeFieldStop();
@@ -150,11 +293,11 @@ uint32_t GraphService_getMessage_result::write(::apache::thrift::protocol::TProt
 }
 
 
-GraphService_getMessage_presult::~GraphService_getMessage_presult() noexcept {
+GraphService_addEdge_presult::~GraphService_addEdge_presult() noexcept {
 }
 
 
-uint32_t GraphService_getMessage_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+uint32_t GraphService_addEdge_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
   uint32_t xfer = 0;
@@ -176,8 +319,8 @@ uint32_t GraphService_getMessage_presult::read(::apache::thrift::protocol::TProt
     switch (fid)
     {
       case 0:
-        if (ftype == ::apache::thrift::protocol::T_STRING) {
-          xfer += iprot->readString((*(this->success)));
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32((*(this->success)));
           this->__isset.success = true;
         } else {
           xfer += iprot->skip(ftype);
@@ -195,19 +338,206 @@ uint32_t GraphService_getMessage_presult::read(::apache::thrift::protocol::TProt
   return xfer;
 }
 
-void GraphServiceClient::getMessage(std::string& _return, const std::string& name)
-{
-  send_getMessage(name);
-  recv_getMessage(_return);
+
+GraphService_getMSTWeight_args::~GraphService_getMSTWeight_args() noexcept {
 }
 
-void GraphServiceClient::send_getMessage(const std::string& name)
+
+uint32_t GraphService_getMSTWeight_args::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_STRING) {
+          xfer += iprot->readString(this->graphId);
+          this->__isset.graphId = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t GraphService_getMSTWeight_args::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("GraphService_getMSTWeight_args");
+
+  xfer += oprot->writeFieldBegin("graphId", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString(this->graphId);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+GraphService_getMSTWeight_pargs::~GraphService_getMSTWeight_pargs() noexcept {
+}
+
+
+uint32_t GraphService_getMSTWeight_pargs::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  ::apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
+  xfer += oprot->writeStructBegin("GraphService_getMSTWeight_pargs");
+
+  xfer += oprot->writeFieldBegin("graphId", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString((*(this->graphId)));
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+GraphService_getMSTWeight_result::~GraphService_getMSTWeight_result() noexcept {
+}
+
+
+uint32_t GraphService_getMSTWeight_result::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->success);
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t GraphService_getMSTWeight_result::write(::apache::thrift::protocol::TProtocol* oprot) const {
+
+  uint32_t xfer = 0;
+
+  xfer += oprot->writeStructBegin("GraphService_getMSTWeight_result");
+
+  if (this->__isset.success) {
+    xfer += oprot->writeFieldBegin("success", ::apache::thrift::protocol::T_I32, 0);
+    xfer += oprot->writeI32(this->success);
+    xfer += oprot->writeFieldEnd();
+  }
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+
+GraphService_getMSTWeight_presult::~GraphService_getMSTWeight_presult() noexcept {
+}
+
+
+uint32_t GraphService_getMSTWeight_presult::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  ::apache::thrift::protocol::TInputRecursionTracker tracker(*iprot);
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32((*(this->success)));
+          this->__isset.success = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+void GraphServiceClient::addGraph(const std::string& graphId, const int32_t nodeCount)
+{
+  send_addGraph(graphId, nodeCount);
+}
+
+void GraphServiceClient::send_addGraph(const std::string& graphId, const int32_t nodeCount)
 {
   int32_t cseqid = 0;
-  oprot_->writeMessageBegin("getMessage", ::apache::thrift::protocol::T_CALL, cseqid);
+  oprot_->writeMessageBegin("addGraph", ::apache::thrift::protocol::T_ONEWAY, cseqid);
 
-  GraphService_getMessage_pargs args;
-  args.name = &name;
+  GraphService_addGraph_pargs args;
+  args.graphId = &graphId;
+  args.nodeCount = &nodeCount;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -215,7 +545,30 @@ void GraphServiceClient::send_getMessage(const std::string& name)
   oprot_->getTransport()->flush();
 }
 
-void GraphServiceClient::recv_getMessage(std::string& _return)
+int32_t GraphServiceClient::addEdge(const std::string& graphId, const int32_t srcNode, const int32_t dstNode, const int32_t edgeWeight)
+{
+  send_addEdge(graphId, srcNode, dstNode, edgeWeight);
+  return recv_addEdge();
+}
+
+void GraphServiceClient::send_addEdge(const std::string& graphId, const int32_t srcNode, const int32_t dstNode, const int32_t edgeWeight)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("addEdge", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  GraphService_addEdge_pargs args;
+  args.graphId = &graphId;
+  args.srcNode = &srcNode;
+  args.dstNode = &dstNode;
+  args.edgeWeight = &edgeWeight;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+int32_t GraphServiceClient::recv_addEdge()
 {
 
   int32_t rseqid = 0;
@@ -235,22 +588,80 @@ void GraphServiceClient::recv_getMessage(std::string& _return)
     iprot_->readMessageEnd();
     iprot_->getTransport()->readEnd();
   }
-  if (fname.compare("getMessage") != 0) {
+  if (fname.compare("addEdge") != 0) {
     iprot_->skip(::apache::thrift::protocol::T_STRUCT);
     iprot_->readMessageEnd();
     iprot_->getTransport()->readEnd();
   }
-  GraphService_getMessage_presult result;
+  int32_t _return;
+  GraphService_addEdge_presult result;
   result.success = &_return;
   result.read(iprot_);
   iprot_->readMessageEnd();
   iprot_->getTransport()->readEnd();
 
   if (result.__isset.success) {
-    // _return pointer has now been filled
-    return;
+    return _return;
   }
-  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "getMessage failed: unknown result");
+  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "addEdge failed: unknown result");
+}
+
+int32_t GraphServiceClient::getMSTWeight(const std::string& graphId)
+{
+  send_getMSTWeight(graphId);
+  return recv_getMSTWeight();
+}
+
+void GraphServiceClient::send_getMSTWeight(const std::string& graphId)
+{
+  int32_t cseqid = 0;
+  oprot_->writeMessageBegin("getMSTWeight", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  GraphService_getMSTWeight_pargs args;
+  args.graphId = &graphId;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+}
+
+int32_t GraphServiceClient::recv_getMSTWeight()
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  iprot_->readMessageBegin(fname, mtype, rseqid);
+  if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+    ::apache::thrift::TApplicationException x;
+    x.read(iprot_);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+    throw x;
+  }
+  if (mtype != ::apache::thrift::protocol::T_REPLY) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  if (fname.compare("getMSTWeight") != 0) {
+    iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+    iprot_->readMessageEnd();
+    iprot_->getTransport()->readEnd();
+  }
+  int32_t _return;
+  GraphService_getMSTWeight_presult result;
+  result.success = &_return;
+  result.read(iprot_);
+  iprot_->readMessageEnd();
+  iprot_->getTransport()->readEnd();
+
+  if (result.__isset.success) {
+    return _return;
+  }
+  throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "getMSTWeight failed: unknown result");
 }
 
 bool GraphServiceProcessor::dispatchCall(::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, const std::string& fname, int32_t seqid, void* callContext) {
@@ -272,38 +683,75 @@ bool GraphServiceProcessor::dispatchCall(::apache::thrift::protocol::TProtocol* 
   return true;
 }
 
-void GraphServiceProcessor::process_getMessage(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+void GraphServiceProcessor::process_addGraph(int32_t, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol*, void* callContext)
 {
   void* ctx = nullptr;
   if (this->eventHandler_.get() != nullptr) {
-    ctx = this->eventHandler_->getContext("GraphService.getMessage", callContext);
+    ctx = this->eventHandler_->getContext("GraphService.addGraph", callContext);
   }
-  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "GraphService.getMessage");
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "GraphService.addGraph");
 
   if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->preRead(ctx, "GraphService.getMessage");
+    this->eventHandler_->preRead(ctx, "GraphService.addGraph");
   }
 
-  GraphService_getMessage_args args;
+  GraphService_addGraph_args args;
   args.read(iprot);
   iprot->readMessageEnd();
   uint32_t bytes = iprot->getTransport()->readEnd();
 
   if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->postRead(ctx, "GraphService.getMessage", bytes);
+    this->eventHandler_->postRead(ctx, "GraphService.addGraph", bytes);
   }
 
-  GraphService_getMessage_result result;
   try {
-    iface_->getMessage(result.success, args.name);
+    iface_->addGraph(args.graphId, args.nodeCount);
+  } catch (const std::exception&) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "GraphService.addGraph");
+    }
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->asyncComplete(ctx, "GraphService.addGraph");
+  }
+
+  return;
+}
+
+void GraphServiceProcessor::process_addEdge(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("GraphService.addEdge", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "GraphService.addEdge");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "GraphService.addEdge");
+  }
+
+  GraphService_addEdge_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "GraphService.addEdge", bytes);
+  }
+
+  GraphService_addEdge_result result;
+  try {
+    result.success = iface_->addEdge(args.graphId, args.srcNode, args.dstNode, args.edgeWeight);
     result.__isset.success = true;
   } catch (const std::exception& e) {
     if (this->eventHandler_.get() != nullptr) {
-      this->eventHandler_->handlerError(ctx, "GraphService.getMessage");
+      this->eventHandler_->handlerError(ctx, "GraphService.addEdge");
     }
 
     ::apache::thrift::TApplicationException x(e.what());
-    oprot->writeMessageBegin("getMessage", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    oprot->writeMessageBegin("addEdge", ::apache::thrift::protocol::T_EXCEPTION, seqid);
     x.write(oprot);
     oprot->writeMessageEnd();
     oprot->getTransport()->writeEnd();
@@ -312,17 +760,71 @@ void GraphServiceProcessor::process_getMessage(int32_t seqid, ::apache::thrift::
   }
 
   if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->preWrite(ctx, "GraphService.getMessage");
+    this->eventHandler_->preWrite(ctx, "GraphService.addEdge");
   }
 
-  oprot->writeMessageBegin("getMessage", ::apache::thrift::protocol::T_REPLY, seqid);
+  oprot->writeMessageBegin("addEdge", ::apache::thrift::protocol::T_REPLY, seqid);
   result.write(oprot);
   oprot->writeMessageEnd();
   bytes = oprot->getTransport()->writeEnd();
   oprot->getTransport()->flush();
 
   if (this->eventHandler_.get() != nullptr) {
-    this->eventHandler_->postWrite(ctx, "GraphService.getMessage", bytes);
+    this->eventHandler_->postWrite(ctx, "GraphService.addEdge", bytes);
+  }
+}
+
+void GraphServiceProcessor::process_getMSTWeight(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext)
+{
+  void* ctx = nullptr;
+  if (this->eventHandler_.get() != nullptr) {
+    ctx = this->eventHandler_->getContext("GraphService.getMSTWeight", callContext);
+  }
+  ::apache::thrift::TProcessorContextFreer freer(this->eventHandler_.get(), ctx, "GraphService.getMSTWeight");
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preRead(ctx, "GraphService.getMSTWeight");
+  }
+
+  GraphService_getMSTWeight_args args;
+  args.read(iprot);
+  iprot->readMessageEnd();
+  uint32_t bytes = iprot->getTransport()->readEnd();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postRead(ctx, "GraphService.getMSTWeight", bytes);
+  }
+
+  GraphService_getMSTWeight_result result;
+  try {
+    result.success = iface_->getMSTWeight(args.graphId);
+    result.__isset.success = true;
+  } catch (const std::exception& e) {
+    if (this->eventHandler_.get() != nullptr) {
+      this->eventHandler_->handlerError(ctx, "GraphService.getMSTWeight");
+    }
+
+    ::apache::thrift::TApplicationException x(e.what());
+    oprot->writeMessageBegin("getMSTWeight", ::apache::thrift::protocol::T_EXCEPTION, seqid);
+    x.write(oprot);
+    oprot->writeMessageEnd();
+    oprot->getTransport()->writeEnd();
+    oprot->getTransport()->flush();
+    return;
+  }
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->preWrite(ctx, "GraphService.getMSTWeight");
+  }
+
+  oprot->writeMessageBegin("getMSTWeight", ::apache::thrift::protocol::T_REPLY, seqid);
+  result.write(oprot);
+  oprot->writeMessageEnd();
+  bytes = oprot->getTransport()->writeEnd();
+  oprot->getTransport()->flush();
+
+  if (this->eventHandler_.get() != nullptr) {
+    this->eventHandler_->postWrite(ctx, "GraphService.getMSTWeight", bytes);
   }
 }
 
@@ -333,20 +835,46 @@ void GraphServiceProcessor::process_getMessage(int32_t seqid, ::apache::thrift::
   return processor;
 }
 
-void GraphServiceConcurrentClient::getMessage(std::string& _return, const std::string& name)
+void GraphServiceConcurrentClient::addGraph(const std::string& graphId, const int32_t nodeCount)
 {
-  int32_t seqid = send_getMessage(name);
-  recv_getMessage(_return, seqid);
+  send_addGraph(graphId, nodeCount);
 }
 
-int32_t GraphServiceConcurrentClient::send_getMessage(const std::string& name)
+void GraphServiceConcurrentClient::send_addGraph(const std::string& graphId, const int32_t nodeCount)
+{
+  int32_t cseqid = 0;
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("addGraph", ::apache::thrift::protocol::T_ONEWAY, cseqid);
+
+  GraphService_addGraph_pargs args;
+  args.graphId = &graphId;
+  args.nodeCount = &nodeCount;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+}
+
+int32_t GraphServiceConcurrentClient::addEdge(const std::string& graphId, const int32_t srcNode, const int32_t dstNode, const int32_t edgeWeight)
+{
+  int32_t seqid = send_addEdge(graphId, srcNode, dstNode, edgeWeight);
+  return recv_addEdge(seqid);
+}
+
+int32_t GraphServiceConcurrentClient::send_addEdge(const std::string& graphId, const int32_t srcNode, const int32_t dstNode, const int32_t edgeWeight)
 {
   int32_t cseqid = this->sync_->generateSeqId();
   ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
-  oprot_->writeMessageBegin("getMessage", ::apache::thrift::protocol::T_CALL, cseqid);
+  oprot_->writeMessageBegin("addEdge", ::apache::thrift::protocol::T_CALL, cseqid);
 
-  GraphService_getMessage_pargs args;
-  args.name = &name;
+  GraphService_addEdge_pargs args;
+  args.graphId = &graphId;
+  args.srcNode = &srcNode;
+  args.dstNode = &dstNode;
+  args.edgeWeight = &edgeWeight;
   args.write(oprot_);
 
   oprot_->writeMessageEnd();
@@ -357,7 +885,7 @@ int32_t GraphServiceConcurrentClient::send_getMessage(const std::string& name)
   return cseqid;
 }
 
-void GraphServiceConcurrentClient::recv_getMessage(std::string& _return, const int32_t seqid)
+int32_t GraphServiceConcurrentClient::recv_addEdge(const int32_t seqid)
 {
 
   int32_t rseqid = 0;
@@ -386,7 +914,7 @@ void GraphServiceConcurrentClient::recv_getMessage(std::string& _return, const i
         iprot_->readMessageEnd();
         iprot_->getTransport()->readEnd();
       }
-      if (fname.compare("getMessage") != 0) {
+      if (fname.compare("addEdge") != 0) {
         iprot_->skip(::apache::thrift::protocol::T_STRUCT);
         iprot_->readMessageEnd();
         iprot_->getTransport()->readEnd();
@@ -395,19 +923,103 @@ void GraphServiceConcurrentClient::recv_getMessage(std::string& _return, const i
         using ::apache::thrift::protocol::TProtocolException;
         throw TProtocolException(TProtocolException::INVALID_DATA);
       }
-      GraphService_getMessage_presult result;
+      int32_t _return;
+      GraphService_addEdge_presult result;
       result.success = &_return;
       result.read(iprot_);
       iprot_->readMessageEnd();
       iprot_->getTransport()->readEnd();
 
       if (result.__isset.success) {
-        // _return pointer has now been filled
         sentry.commit();
-        return;
+        return _return;
       }
       // in a bad state, don't commit
-      throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "getMessage failed: unknown result");
+      throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "addEdge failed: unknown result");
+    }
+    // seqid != rseqid
+    this->sync_->updatePending(fname, mtype, rseqid);
+
+    // this will temporarily unlock the readMutex, and let other clients get work done
+    this->sync_->waitForWork(seqid);
+  } // end while(true)
+}
+
+int32_t GraphServiceConcurrentClient::getMSTWeight(const std::string& graphId)
+{
+  int32_t seqid = send_getMSTWeight(graphId);
+  return recv_getMSTWeight(seqid);
+}
+
+int32_t GraphServiceConcurrentClient::send_getMSTWeight(const std::string& graphId)
+{
+  int32_t cseqid = this->sync_->generateSeqId();
+  ::apache::thrift::async::TConcurrentSendSentry sentry(this->sync_.get());
+  oprot_->writeMessageBegin("getMSTWeight", ::apache::thrift::protocol::T_CALL, cseqid);
+
+  GraphService_getMSTWeight_pargs args;
+  args.graphId = &graphId;
+  args.write(oprot_);
+
+  oprot_->writeMessageEnd();
+  oprot_->getTransport()->writeEnd();
+  oprot_->getTransport()->flush();
+
+  sentry.commit();
+  return cseqid;
+}
+
+int32_t GraphServiceConcurrentClient::recv_getMSTWeight(const int32_t seqid)
+{
+
+  int32_t rseqid = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TMessageType mtype;
+
+  // the read mutex gets dropped and reacquired as part of waitForWork()
+  // The destructor of this sentry wakes up other clients
+  ::apache::thrift::async::TConcurrentRecvSentry sentry(this->sync_.get(), seqid);
+
+  while(true) {
+    if(!this->sync_->getPending(fname, mtype, rseqid)) {
+      iprot_->readMessageBegin(fname, mtype, rseqid);
+    }
+    if(seqid == rseqid) {
+      if (mtype == ::apache::thrift::protocol::T_EXCEPTION) {
+        ::apache::thrift::TApplicationException x;
+        x.read(iprot_);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+        sentry.commit();
+        throw x;
+      }
+      if (mtype != ::apache::thrift::protocol::T_REPLY) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+      }
+      if (fname.compare("getMSTWeight") != 0) {
+        iprot_->skip(::apache::thrift::protocol::T_STRUCT);
+        iprot_->readMessageEnd();
+        iprot_->getTransport()->readEnd();
+
+        // in a bad state, don't commit
+        using ::apache::thrift::protocol::TProtocolException;
+        throw TProtocolException(TProtocolException::INVALID_DATA);
+      }
+      int32_t _return;
+      GraphService_getMSTWeight_presult result;
+      result.success = &_return;
+      result.read(iprot_);
+      iprot_->readMessageEnd();
+      iprot_->getTransport()->readEnd();
+
+      if (result.__isset.success) {
+        sentry.commit();
+        return _return;
+      }
+      // in a bad state, don't commit
+      throw ::apache::thrift::TApplicationException(::apache::thrift::TApplicationException::MISSING_RESULT, "getMSTWeight failed: unknown result");
     }
     // seqid != rseqid
     this->sync_->updatePending(fname, mtype, rseqid);

@@ -18,9 +18,19 @@ class GraphServiceHandler : virtual public GraphServiceIf {
     // Your initialization goes here
   }
 
-  void getMessage(std::string& _return, const std::string& name) {
+  void addGraph(const std::string& graphId, const int32_t nodeCount) {
     // Your implementation goes here
-    printf("getMessage\n");
+    printf("addGraph\n");
+  }
+
+  int32_t addEdge(const std::string& graphId, const int32_t srcNode, const int32_t dstNode, const int32_t edgeWeight) {
+    // Your implementation goes here
+    printf("addEdge\n");
+  }
+
+  int32_t getMSTWeight(const std::string& graphId) {
+    // Your implementation goes here
+    printf("getMSTWeight\n");
   }
 
 };

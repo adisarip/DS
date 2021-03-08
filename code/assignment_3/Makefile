@@ -46,6 +46,7 @@ $(SVC_OBJECTS): $(OBJDIR)/%.o : $(SVCDIR)/%.cpp
 	$(CXX) $(CCFLAGS) $(INCLUDE) -c $< -o $@
 	@echo "Compiled "$<" successfully."
 
+# build this target before building the client or server targets
 service:
 	@echo "Generating interface files."
 	mkdir -p $(SVCDIR)
@@ -64,5 +65,5 @@ server: $(SERVER_OBJECTS) $(SVC_OBJECTS)
 all: service client server
 
 clean:
-	@echo "Cleaning all the object files and binaries."
+	@echo "Cleaning all the autogen files, object files and binaries."
 	rm -f core $(SVCDIR)/* $(BINDIR)/* $(OBJDIR)/*

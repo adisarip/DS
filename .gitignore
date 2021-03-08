@@ -7,7 +7,7 @@ server
 
 # Directories
 thrift
-
+tprogs
 
 # Prerequisites
 *.d

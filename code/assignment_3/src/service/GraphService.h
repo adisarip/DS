@@ -22,7 +22,9 @@
 class GraphServiceIf {
  public:
   virtual ~GraphServiceIf() {}
-  virtual void getMessage(std::string& _return, const std::string& name) = 0;
+  virtual void addGraph(const std::string& graphId, const int32_t nodeCount) = 0;
+  virtual int32_t addEdge(const std::string& graphId, const int32_t srcNode, const int32_t dstNode, const int32_t edgeWeight) = 0;
+  virtual int32_t getMSTWeight(const std::string& graphId) = 0;
 };
 
 class GraphServiceIfFactory {
@@ -52,42 +54,56 @@ class GraphServiceIfSingletonFactory : virtual public GraphServiceIfFactory {
 class GraphServiceNull : virtual public GraphServiceIf {
  public:
   virtual ~GraphServiceNull() {}
-  void getMessage(std::string& /* _return */, const std::string& /* name */) {
+  void addGraph(const std::string& /* graphId */, const int32_t /* nodeCount */) {
     return;
+  }
+  int32_t addEdge(const std::string& /* graphId */, const int32_t /* srcNode */, const int32_t /* dstNode */, const int32_t /* edgeWeight */) {
+    int32_t _return = 0;
+    return _return;
+  }
+  int32_t getMSTWeight(const std::string& /* graphId */) {
+    int32_t _return = 0;
+    return _return;
   }
 };
 
-typedef struct _GraphService_getMessage_args__isset {
-  _GraphService_getMessage_args__isset() : name(false) {}
-  bool name :1;
-} _GraphService_getMessage_args__isset;
+typedef struct _GraphService_addGraph_args__isset {
+  _GraphService_addGraph_args__isset() : graphId(false), nodeCount(false) {}
+  bool graphId :1;
+  bool nodeCount :1;
+} _GraphService_addGraph_args__isset;
 
-class GraphService_getMessage_args {
+class GraphService_addGraph_args {
  public:
 
-  GraphService_getMessage_args(const GraphService_getMessage_args&);
-  GraphService_getMessage_args& operator=(const GraphService_getMessage_args&);
-  GraphService_getMessage_args() : name() {
+  GraphService_addGraph_args(const GraphService_addGraph_args&);
+  GraphService_addGraph_args& operator=(const GraphService_addGraph_args&);
+  GraphService_addGraph_args() : graphId(), nodeCount(0) {
   }
 
-  virtual ~GraphService_getMessage_args() noexcept;
-  std::string name;
+  virtual ~GraphService_addGraph_args() noexcept;
+  std::string graphId;
+  int32_t nodeCount;
 
-  _GraphService_getMessage_args__isset __isset;
+  _GraphService_addGraph_args__isset __isset;
 
-  void __set_name(const std::string& val);
+  void __set_graphId(const std::string& val);
 
-  bool operator == (const GraphService_getMessage_args & rhs) const
+  void __set_nodeCount(const int32_t val);
+
+  bool operator == (const GraphService_addGraph_args & rhs) const
   {
-    if (!(name == rhs.name))
+    if (!(graphId == rhs.graphId))
+      return false;
+    if (!(nodeCount == rhs.nodeCount))
       return false;
     return true;
   }
-  bool operator != (const GraphService_getMessage_args &rhs) const {
+  bool operator != (const GraphService_addGraph_args &rhs) const {
     return !(*this == rhs);
   }
 
-  bool operator < (const GraphService_getMessage_args & ) const;
+  bool operator < (const GraphService_addGraph_args & ) const;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
@@ -95,67 +111,242 @@ class GraphService_getMessage_args {
 };
 
 
-class GraphService_getMessage_pargs {
+class GraphService_addGraph_pargs {
  public:
 
 
-  virtual ~GraphService_getMessage_pargs() noexcept;
-  const std::string* name;
+  virtual ~GraphService_addGraph_pargs() noexcept;
+  const std::string* graphId;
+  const int32_t* nodeCount;
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
 };
 
-typedef struct _GraphService_getMessage_result__isset {
-  _GraphService_getMessage_result__isset() : success(false) {}
-  bool success :1;
-} _GraphService_getMessage_result__isset;
+typedef struct _GraphService_addEdge_args__isset {
+  _GraphService_addEdge_args__isset() : graphId(false), srcNode(false), dstNode(false), edgeWeight(false) {}
+  bool graphId :1;
+  bool srcNode :1;
+  bool dstNode :1;
+  bool edgeWeight :1;
+} _GraphService_addEdge_args__isset;
 
-class GraphService_getMessage_result {
+class GraphService_addEdge_args {
  public:
 
-  GraphService_getMessage_result(const GraphService_getMessage_result&);
-  GraphService_getMessage_result& operator=(const GraphService_getMessage_result&);
-  GraphService_getMessage_result() : success() {
+  GraphService_addEdge_args(const GraphService_addEdge_args&);
+  GraphService_addEdge_args& operator=(const GraphService_addEdge_args&);
+  GraphService_addEdge_args() : graphId(), srcNode(0), dstNode(0), edgeWeight(0) {
   }
 
-  virtual ~GraphService_getMessage_result() noexcept;
-  std::string success;
+  virtual ~GraphService_addEdge_args() noexcept;
+  std::string graphId;
+  int32_t srcNode;
+  int32_t dstNode;
+  int32_t edgeWeight;
 
-  _GraphService_getMessage_result__isset __isset;
+  _GraphService_addEdge_args__isset __isset;
 
-  void __set_success(const std::string& val);
+  void __set_graphId(const std::string& val);
 
-  bool operator == (const GraphService_getMessage_result & rhs) const
+  void __set_srcNode(const int32_t val);
+
+  void __set_dstNode(const int32_t val);
+
+  void __set_edgeWeight(const int32_t val);
+
+  bool operator == (const GraphService_addEdge_args & rhs) const
+  {
+    if (!(graphId == rhs.graphId))
+      return false;
+    if (!(srcNode == rhs.srcNode))
+      return false;
+    if (!(dstNode == rhs.dstNode))
+      return false;
+    if (!(edgeWeight == rhs.edgeWeight))
+      return false;
+    return true;
+  }
+  bool operator != (const GraphService_addEdge_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const GraphService_addEdge_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class GraphService_addEdge_pargs {
+ public:
+
+
+  virtual ~GraphService_addEdge_pargs() noexcept;
+  const std::string* graphId;
+  const int32_t* srcNode;
+  const int32_t* dstNode;
+  const int32_t* edgeWeight;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _GraphService_addEdge_result__isset {
+  _GraphService_addEdge_result__isset() : success(false) {}
+  bool success :1;
+} _GraphService_addEdge_result__isset;
+
+class GraphService_addEdge_result {
+ public:
+
+  GraphService_addEdge_result(const GraphService_addEdge_result&);
+  GraphService_addEdge_result& operator=(const GraphService_addEdge_result&);
+  GraphService_addEdge_result() : success(0) {
+  }
+
+  virtual ~GraphService_addEdge_result() noexcept;
+  int32_t success;
+
+  _GraphService_addEdge_result__isset __isset;
+
+  void __set_success(const int32_t val);
+
+  bool operator == (const GraphService_addEdge_result & rhs) const
   {
     if (!(success == rhs.success))
       return false;
     return true;
   }
-  bool operator != (const GraphService_getMessage_result &rhs) const {
+  bool operator != (const GraphService_addEdge_result &rhs) const {
     return !(*this == rhs);
   }
 
-  bool operator < (const GraphService_getMessage_result & ) const;
+  bool operator < (const GraphService_addEdge_result & ) const;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
 };
 
-typedef struct _GraphService_getMessage_presult__isset {
-  _GraphService_getMessage_presult__isset() : success(false) {}
+typedef struct _GraphService_addEdge_presult__isset {
+  _GraphService_addEdge_presult__isset() : success(false) {}
   bool success :1;
-} _GraphService_getMessage_presult__isset;
+} _GraphService_addEdge_presult__isset;
 
-class GraphService_getMessage_presult {
+class GraphService_addEdge_presult {
  public:
 
 
-  virtual ~GraphService_getMessage_presult() noexcept;
-  std::string* success;
+  virtual ~GraphService_addEdge_presult() noexcept;
+  int32_t* success;
 
-  _GraphService_getMessage_presult__isset __isset;
+  _GraphService_addEdge_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _GraphService_getMSTWeight_args__isset {
+  _GraphService_getMSTWeight_args__isset() : graphId(false) {}
+  bool graphId :1;
+} _GraphService_getMSTWeight_args__isset;
+
+class GraphService_getMSTWeight_args {
+ public:
+
+  GraphService_getMSTWeight_args(const GraphService_getMSTWeight_args&);
+  GraphService_getMSTWeight_args& operator=(const GraphService_getMSTWeight_args&);
+  GraphService_getMSTWeight_args() : graphId() {
+  }
+
+  virtual ~GraphService_getMSTWeight_args() noexcept;
+  std::string graphId;
+
+  _GraphService_getMSTWeight_args__isset __isset;
+
+  void __set_graphId(const std::string& val);
+
+  bool operator == (const GraphService_getMSTWeight_args & rhs) const
+  {
+    if (!(graphId == rhs.graphId))
+      return false;
+    return true;
+  }
+  bool operator != (const GraphService_getMSTWeight_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const GraphService_getMSTWeight_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class GraphService_getMSTWeight_pargs {
+ public:
+
+
+  virtual ~GraphService_getMSTWeight_pargs() noexcept;
+  const std::string* graphId;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _GraphService_getMSTWeight_result__isset {
+  _GraphService_getMSTWeight_result__isset() : success(false) {}
+  bool success :1;
+} _GraphService_getMSTWeight_result__isset;
+
+class GraphService_getMSTWeight_result {
+ public:
+
+  GraphService_getMSTWeight_result(const GraphService_getMSTWeight_result&);
+  GraphService_getMSTWeight_result& operator=(const GraphService_getMSTWeight_result&);
+  GraphService_getMSTWeight_result() : success(0) {
+  }
+
+  virtual ~GraphService_getMSTWeight_result() noexcept;
+  int32_t success;
+
+  _GraphService_getMSTWeight_result__isset __isset;
+
+  void __set_success(const int32_t val);
+
+  bool operator == (const GraphService_getMSTWeight_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const GraphService_getMSTWeight_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const GraphService_getMSTWeight_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _GraphService_getMSTWeight_presult__isset {
+  _GraphService_getMSTWeight_presult__isset() : success(false) {}
+  bool success :1;
+} _GraphService_getMSTWeight_presult__isset;
+
+class GraphService_getMSTWeight_presult {
+ public:
+
+
+  virtual ~GraphService_getMSTWeight_presult() noexcept;
+  int32_t* success;
+
+  _GraphService_getMSTWeight_presult__isset __isset;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
 
@@ -186,9 +377,14 @@ class GraphServiceClient : virtual public GraphServiceIf {
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> getOutputProtocol() {
     return poprot_;
   }
-  void getMessage(std::string& _return, const std::string& name);
-  void send_getMessage(const std::string& name);
-  void recv_getMessage(std::string& _return);
+  void addGraph(const std::string& graphId, const int32_t nodeCount);
+  void send_addGraph(const std::string& graphId, const int32_t nodeCount);
+  int32_t addEdge(const std::string& graphId, const int32_t srcNode, const int32_t dstNode, const int32_t edgeWeight);
+  void send_addEdge(const std::string& graphId, const int32_t srcNode, const int32_t dstNode, const int32_t edgeWeight);
+  int32_t recv_addEdge();
+  int32_t getMSTWeight(const std::string& graphId);
+  void send_getMSTWeight(const std::string& graphId);
+  int32_t recv_getMSTWeight();
  protected:
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;
@@ -204,11 +400,15 @@ class GraphServiceProcessor : public ::apache::thrift::TDispatchProcessor {
   typedef  void (GraphServiceProcessor::*ProcessFunction)(int32_t, ::apache::thrift::protocol::TProtocol*, ::apache::thrift::protocol::TProtocol*, void*);
   typedef std::map<std::string, ProcessFunction> ProcessMap;
   ProcessMap processMap_;
-  void process_getMessage(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_addGraph(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_addEdge(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_getMSTWeight(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
  public:
   GraphServiceProcessor(::std::shared_ptr<GraphServiceIf> iface) :
     iface_(iface) {
-    processMap_["getMessage"] = &GraphServiceProcessor::process_getMessage;
+    processMap_["addGraph"] = &GraphServiceProcessor::process_addGraph;
+    processMap_["addEdge"] = &GraphServiceProcessor::process_addEdge;
+    processMap_["getMSTWeight"] = &GraphServiceProcessor::process_getMSTWeight;
   }
 
   virtual ~GraphServiceProcessor() {}
@@ -237,14 +437,31 @@ class GraphServiceMultiface : virtual public GraphServiceIf {
     ifaces_.push_back(iface);
   }
  public:
-  void getMessage(std::string& _return, const std::string& name) {
+  void addGraph(const std::string& graphId, const int32_t nodeCount) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->getMessage(_return, name);
+      ifaces_[i]->addGraph(graphId, nodeCount);
     }
-    ifaces_[i]->getMessage(_return, name);
-    return;
+    ifaces_[i]->addGraph(graphId, nodeCount);
+  }
+
+  int32_t addEdge(const std::string& graphId, const int32_t srcNode, const int32_t dstNode, const int32_t edgeWeight) {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->addEdge(graphId, srcNode, dstNode, edgeWeight);
+    }
+    return ifaces_[i]->addEdge(graphId, srcNode, dstNode, edgeWeight);
+  }
+
+  int32_t getMSTWeight(const std::string& graphId) {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->getMSTWeight(graphId);
+    }
+    return ifaces_[i]->getMSTWeight(graphId);
   }
 
 };
@@ -279,9 +496,14 @@ class GraphServiceConcurrentClient : virtual public GraphServiceIf {
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> getOutputProtocol() {
     return poprot_;
   }
-  void getMessage(std::string& _return, const std::string& name);
-  int32_t send_getMessage(const std::string& name);
-  void recv_getMessage(std::string& _return, const int32_t seqid);
+  void addGraph(const std::string& graphId, const int32_t nodeCount);
+  void send_addGraph(const std::string& graphId, const int32_t nodeCount);
+  int32_t addEdge(const std::string& graphId, const int32_t srcNode, const int32_t dstNode, const int32_t edgeWeight);
+  int32_t send_addEdge(const std::string& graphId, const int32_t srcNode, const int32_t dstNode, const int32_t edgeWeight);
+  int32_t recv_addEdge(const int32_t seqid);
+  int32_t getMSTWeight(const std::string& graphId);
+  int32_t send_getMSTWeight(const std::string& graphId);
+  int32_t recv_getMSTWeight(const int32_t seqid);
  protected:
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   std::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;
