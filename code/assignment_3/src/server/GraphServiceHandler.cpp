@@ -33,12 +33,20 @@ int GraphServiceHandler::addEdge(const string& graphId, const int u, const int v
 
 int GraphServiceHandler::getMSTWeight(const string& graphId)
 {
-    cout << "[RPCQ] Requesting MST weight for graph \"" << graphId << "\"" << endl;
     Graph* pGraph = mGraphContainer[graphId];
     int sMSTWeight = -1;
     if (NULL != pGraph)
     {
+        cout << "[RPCQ] Requesting MST weight for graph \"" << graphId << "\"" << endl;
         sMSTWeight = pGraph->getMSTWeight();
+        if (sMSTWeight < 0)
+        {
+            cout << "[INFO] MST do not exist for the graph \"" << graphId  << "\"" << endl;
+        }
+    }
+    else
+    {
+        cout << "[ERROR] Graph \"" << graphId << "\" donot exists." << endl;
     }
     return sMSTWeight;
 }

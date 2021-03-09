@@ -2,7 +2,6 @@
 #include "Graph.h"
 #include "GraphUtils.h"
 #include <algorithm>
-#include <iostream>
 
 // Graph Class - Definitions
 // Constructor
@@ -46,10 +45,10 @@ int Graph::getMSTWeight()
 
     sort(mEdgeList.begin(), mEdgeList.end(), compare);
 
-    Subset* subsets = new Subset[mNodesCount * sizeof(Subset)];
+    Subset* subsets = new Subset[(mNodesCount+1) * sizeof(Subset)];
 
     // create subsets with single elements
-    for (int i = 0; i < mNodesCount; i++)
+    for (int i = 1; i <= mNodesCount; i++)
     {
         subsets[i].parent = i;
         subsets[i].rank = 0;
@@ -72,10 +71,24 @@ int Graph::getMSTWeight()
 
     // compute the MST weight
     int sMinCost = 0;
-    for (int i=0; i < e_mst; i++)
+
+    // verify for the edges in the MST Union-Find returns the same subset
+    // if not then the graph is not connected and MST donot exists
+    int sParent = Find(subsets, sMST[0]->src);
+    for (int i = 1; i < e_mst; i++)
     {
-        cout << sMST[i]->src << " -- " << sMST[i]->dest << " == " << sMST[i]->weight << endl;
-        sMinCost = sMinCost + sMST[i]->weight;
+        if (sParent != Find(subsets, sMST[i]->src))
+        {
+            sMinCost = -1;
+            break;
+        }
+    }
+    if (0 == sMinCost)
+    {
+        for (int i=0; i < e_mst; i++)
+        {
+            sMinCost = sMinCost + sMST[i]->weight;
+        }
     }
 
     return sMinCost;
