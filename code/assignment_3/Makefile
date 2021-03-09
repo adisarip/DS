@@ -72,8 +72,8 @@ all: service client server
 
 clean:
 	@echo "Cleaning the object files and binaries."
-	rm -f core $(BINDIR)/* $(OBJDIR)/*
+	rm -f core $(BINDIR)/client $(BINDIR)/server $(OBJDIR)/*.o
 
 clean_all:
 	@echo "Cleaning all the autogen files, object files and binaries."
-	rm -f core $(SVCDIR)/* $(BINDIR)/* $(OBJDIR)/*
+	rm -f core $(SVCDIR)/* $(BINDIR)/client $(BINDIR)/server $(OBJDIR)/*.o
