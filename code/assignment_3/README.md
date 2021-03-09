@@ -152,3 +152,8 @@ After updating the Makefile, build the client and server binaries as follows:
 > [RPCR]  -> RPC Response traces
 > [ERROR] -> Error traces
 >```
+
+## Additional Features
+>- After the graph is created with the initial number of nodes provided, we can add additional edges with new nodes (not part of the initial graph) and request for the MST. Dynamically the server would re-configure the graph with additional nodes and edges and compute the MST.  
+>- Useful when you try to test where MST wouldn't exists. I added a connected graph with 4 nodes and computed the MST. Then I added another disconnected edge (which would add additional 2 nodes and 1 edge into the initial graph of 4 nodes). MST weight should return -1.  
+>- Now add another edge between one of the node from original graph and any one of the node in the newly added disconnected edge. Now the new graph is connected with 6 nodes. MST should exist and hence should return a value not equal to -1.  
