@@ -124,8 +124,7 @@ After updating the Makefile, build the client and server binaries as follows:
 >clang++ -lthrift ./obj/Client.o ./obj/ClientUtils.o ./obj/GraphService.o -o ./bin/client
 >Linking client objects complete.
 >To start the "Client" run --> ./bin/client
->```
->```
+>
 >clang++ -Wall -std=c++11 -I./ -I/usr/local/Cellar/thrift/0.14.0/include -c src/server/Server.cpp -o obj/Server.o
 >Compiled src/server/Server.cpp successfully.
 >clang++ -Wall -std=c++11 -I./ -I/usr/local/Cellar/thrift/0.14.0/include -c src/server/GraphServiceHandler.cpp -o obj/GraphServiceHandler.o
