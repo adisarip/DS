@@ -59,7 +59,7 @@ server using **'get_mst \<graph_identifier\>'**. The client will print the solut
 >```
 > brew install thrift
 >```
->- Make a note of the include and the dynamic library paths in the Apache 'thrift' installation to update the Makefile. A typical include and library paths would look like:
+>- Make a note of the include and the dynamic library paths in the Apache 'thrift' installation to update the Makefile. A typical include and library paths would look like:  
 /usr/local/Cellar/thrift/0.14.0/include  
 /usr/local/Cellar/thrift/0.14.0/lib  
 >- Update the INCLUDE and LD_LIBRARY_PATH variables in the Makefile accordingly, using the above paths from your installation.
