@@ -2,17 +2,17 @@
 ## Distributed Systems (Assignment-3):
 
 ### Problem:
-> Design and implement a Remote Procedure Call framework to simulate the following:
->- Implement a single server architecture with support for multiple clients
->- The server maintains a list of graphs each associated with a distinct identifier.
->- Clients can request to add a new graph, update an existing graph and query for the total weight of the minimum weight spanning tree of a given graph.
->- Clients can request to add a new graph using **'add_graph \<graph_identifier\> n'**. This command will add a new graph on the server with the identifier 'graph_identifier' and 'n' number of nodes. The graph identifier is a string with a maximum length of 10 and it won't already exist. 'n' will be in the range: 1 <= n <= 100,000.
->- Clients can request to add a new edge in a graph using **'add_edge \<graph_identifier\> \<u\> \<v\> \<w\>'**. This will add an undirected edge between the nodes **u** and **v** with weight **w**. **u** and **v** are the node numbers of the endpoints of the edge such that 1 <= u, v <= n and 0 <= w <= 10,000. **n** is the number of nodes in the specified graph. A graph with identifier graph identifier will already exist. There can be multiple edges and self-loops added to the graph.
+> Design and implement a Remote Procedure Call framework to simulate the following:  
+>- Implement a single server architecture with support for multiple clients  
+>- The server maintains a list of graphs each associated with a distinct identifier.  
+>- Clients can request to add a new graph, update an existing graph and query for the total weight of the minimum weight spanning tree of a given graph.  
+>- Clients can request to add a new graph using **'add_graph \<graph_identifier\> n'**. This command will add a new graph on the server with the identifier 'graph_identifier' and 'n' number of nodes. The graph identifier is a string with a maximum length of 10 and it won't already exist. 'n' will be in the range: 1 <= n <= 100,000.  
+>- Clients can request to add a new edge in a graph using **'add_edge \<graph_identifier\> \<u\> \<v\> \<w\>'**. This will add an undirected edge between the nodes **u** and **v** with weight **w**. **u** and **v** are the node numbers of the endpoints of the edge such that 1 <= u, v <= n and 0 <= w <= 10,000. **n** is the number of nodes in the specified graph. A graph with identifier graph identifier will already exist. There can be multiple edges and self-loops added to the graph.  
 >- Clients can request for the total weight of the minimum weight spanning tree in a graph from the
-server using **'get_mst \<graph_identifier\>'**. The client will print the solution the server returns. In case the graph does not have a spanning tree, -1 should be printed. A graph with identifier graph_identifier will already exist.
->- All values should fit in 32-bit signed integers.
->- The server should be able to handle multiple clients simultaneously and should also work with clients on other machines.
->- You are free to use any algorithm for MST
+server using **'get_mst \<graph_identifier\>'**. The client will print the solution the server returns. In case the graph does not have a spanning tree, -1 should be printed. A graph with identifier graph_identifier will already exist.  
+>- All values should fit in 32-bit signed integers.  
+>- The server should be able to handle multiple clients simultaneously and should also work with clients on other machines.  
+>- You are free to use any algorithm for MST  
 
 #### Solution Approach
 >- Programming language for Client and Server - C++
@@ -47,10 +47,10 @@ server using **'get_mst \<graph_identifier\>'**. The client will print the solut
 >- Implement a 'Graph' class encapsulating all the interfaces that can be called from the server. Use Kruskal's algorithm for computing the Minimum Spanning Tree for an undirected graph, using _Union-Find_ data structure for better performance.
 
 #### Environment Details
-> Operating System:  _Mac OSX BigSur 11.2.2_
-> Package Installer : _Homebrew_
-> Compiler : _clang++_
-> RPC Package : _Apache Thrift_
+> Operating System:  _Mac OSX BigSur 11.2.2_  
+> Package Installer : _Homebrew_  
+> Compiler : _clang++_  
+> RPC Package : _Apache Thrift_     
 >
 > **_Installation Instructions:_**
 >- Install CommandLineTools and Homebrew package manager on Mac OSX. Refer [this](https://www.datacamp.com/community/tutorials/homebrew-install-use) link for detailed installation steps.
