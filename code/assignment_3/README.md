@@ -67,11 +67,15 @@ _**On Server Side:**_
 ## Source Tree
 Given below is the source tree for the current assignment.
 >```
->├── DS_Assignment3.pdf
 >├── Makefile
 >├── README.md
->├── bin/
->├── obj/
+>├── Report.pdf
+>├── bin
+>│   └── README
+>├── obj
+>│   └── README
+>├── sample_input.txt
+>├── sample_output.txt
 >└── src/
 >    ├── interface.thrift
 >    ├── client/
@@ -141,11 +145,17 @@ After updating the Makefile, build the client and server binaries as follows:
 > ```
 
 
-## Execution Run
+## Execution Runs
 >- Instantiate **_./bin/server_** from one terminal
 >- Instantiate **_./bin/client_** from another terminal. Multiple client instantiations would require multiple terminals.
->- Follow the menu in the client terminals to create the undirected graph and compute the MST weight.
->- The log traces are categorized as below:
+>- Client can be instantiated in **3** ways ...  
+> 1 **./bin/client**  
+> 2 **./bin/client <input_file\>**  
+> 3 **./bin/client <input_file\> <output_file\>**  
+>- In case-1 all the operations will be performed from command line. Follow the menu options for the operations to be performed on graphs. The output from will be displayed on stdout.
+>- In case-2 all the commands from the input_file will be processed and again wait for user to give additional commands. Follow the menu options for additional operations. The output from will be displayed on stdout.
+>- In case-3 all the commands from the input_file will be processed and again wait for user to give additional commands. Follow the menu options for additional operations. The output from client will be redirected to output_file.
+>- The log traces are categorized as below:  
 >```
 > [INFO]  -> Informational traces
 > [RPCQ]  -> RPC Request traces
@@ -154,6 +164,5 @@ After updating the Makefile, build the client and server binaries as follows:
 >```
 
 ## Additional Features
+>- MST can be requested by the clients even in the intermediate stages of the graph creation. If the intermediate graph is connected, then the MST would be computed and returned. If the graph is disconnected then -1 would be returned.  
 >- After the graph is created with the initial number of nodes provided, we can add additional edges with new nodes (not part of the initial graph) and request for the MST. Dynamically the server would re-configure the graph with additional nodes and edges and compute the MST.  
->- Useful when you try to test where MST wouldn't exists. I added a connected graph with 4 nodes and computed the MST. Then I added another disconnected edge (which would add additional 2 nodes and 1 edge into the initial graph of 4 nodes). MST weight should return -1.  
->- Now add another edge between one of the node from original graph and any one of the node in the newly added disconnected edge. Now the new graph is connected with 6 nodes. MST should exist and hence should return a value not equal to -1.  

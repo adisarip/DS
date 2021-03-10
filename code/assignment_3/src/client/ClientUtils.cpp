@@ -32,7 +32,7 @@ void processUserCommand(GraphServiceClient* client, string inputCmd)
         sGraphId = tokens[1];
         int sNodeCount = stoi(tokens[2]);
         client->addGraph(sGraphId, sNodeCount);
-        cout << "\n[RPCR] Graph Added" << endl;
+        cout << "[RPCR] Graph Added" << endl;
     }
     else if (sCmd == "add_edge" && tokens.size() == 5)
     {
@@ -43,22 +43,23 @@ void processUserCommand(GraphServiceClient* client, string inputCmd)
         int sRc = client->addEdge(sGraphId, u, v, w);
         if (sRc < 0)
         {
-            cout << "\n[RPCR] Command Skipped" << endl;
+            cout << "[RPCR] Command Skipped" << endl;
         }
         else
         {
-            cout << "\n[RPCR] Edge Added" << endl;
+            cout << "[RPCR] Edge Added "
+                 << "[" << u  << "--" << "(" << w << ")" << "--" << v << "]" << endl;
         }
     }
     else if (sCmd == "get_mst" && tokens.size() == 2)
     {
         sGraphId = tokens[1];
         int sMSTWeight = client->getMSTWeight(sGraphId);
-        cout << "\n[RPCR] MST Weight of graph \"" << sGraphId << "\" = " << sMSTWeight << endl;
+        cout << "[RPCR] MST Weight of graph \"" << sGraphId << "\" = " << sMSTWeight << endl;
     }
     else
     {
         // Invalid Input
-        cout << "\n[ERROR] Invalid Input Command \'" << inputCmd << "\'" << endl;
+        cout << "[ERROR] Invalid Input Command \'" << inputCmd << "\'" << endl;
     }
 }

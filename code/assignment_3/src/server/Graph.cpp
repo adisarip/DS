@@ -40,6 +40,10 @@ bool compare(Edge* e1, Edge* e2)
 
 int Graph::getMSTWeight()
 {
+    if (mEdgeList.size() == 0)
+    {
+        return -1;
+    }
     // return weight of the Minimum Spanning Tree
     Edge* sMST[mNodesCount];
 
